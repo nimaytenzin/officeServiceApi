@@ -2,7 +2,6 @@ import { Injectable,Inject } from '@nestjs/common';
 import { Schedule } from './schedule.entity';
 import { ScheduleDto} from './dto/schedule.dto';
 import { SCHEDULE_REPOSITORY } from '../../core/constants';
-import { Op } from 'sequelize';
 import sequelize from 'sequelize';
 
 @Injectable()
@@ -30,15 +29,6 @@ export class SchedulesService {
     }
 
     async update(id,data){
-        // const [numberOfAffectedRows, [updatedSchedules]] = await this.scheduleRepository.update(
-        //     { ...data }, 
-        //     { 
-        //         where: { id }
-        //     });
-        
-        // console.log(numberOfAffectedRows);
-        // console.log(updatedSchedules);
-        // return { numberOfAffectedRows, updatedSchedules};
         const [numRows,num] = await this.scheduleRepository.update(
             {...data},
             {

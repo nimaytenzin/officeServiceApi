@@ -4,3 +4,4 @@ export const TEST = 'test';
 export const PRODUCTION = 'production';
 export const USER_REPOSITORY = 'USER_REPOSITORY';
 export const SCHEDULE_REPOSITORY = 'SCHEDULE_REPOSITORY';
+export const BOOKING_REPOSITORY= 'BOOKING_REPOSITORY';
