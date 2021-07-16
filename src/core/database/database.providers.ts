@@ -4,6 +4,10 @@ import { databaseConfig } from './database.config';
 import { User } from '../../modules/users/user.entity';
 import { Schedule } from 'src/modules/schedules/schedule.entity';
 import { Booking } from 'src/modules/bookings/booking.entity';
+import { Bus } from 'src/modules/buses/buses.entity';
+import { BusType } from 'src/modules/bus-types/bus-types.entity';
+import { Seats } from 'src/modules/seats/seats.entity';
+
 
 export const databaseProviders = [{
     provide: SEQUELIZE,
@@ -23,7 +27,7 @@ export const databaseProviders = [{
            config = databaseConfig.development;
         }
         const sequelize = new Sequelize(config);
-        sequelize.addModels([User,Schedule,Booking]);
+        sequelize.addModels([User,Schedule,Booking, Bus, BusType, Seats]);
         await sequelize.sync();
         return sequelize;
     },
