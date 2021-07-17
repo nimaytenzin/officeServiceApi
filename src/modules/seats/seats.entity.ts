@@ -1,14 +1,21 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, BelongsTo} from 'sequelize-typescript';
+import { Bus } from '../buses/buses.entity';
+
 
 @Table
 export class Seats extends Model {
 
-
+    @ForeignKey(() => Bus)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false,
+        allowNull: false, 
     })
+
     busId: number;
+
+    @BelongsTo(() => Bus)
+    bus: Bus[];
+    
 
     @Column({
         type: DataType.INTEGER,
@@ -32,3 +39,5 @@ export class Seats extends Model {
 
    
 }
+
+

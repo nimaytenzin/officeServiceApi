@@ -1,9 +1,10 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, BelongsTo } from 'sequelize-typescript';
+import { Bus } from '../buses/buses.entity';
 
 @Table
 export class BusType extends Model {
 
-
+    @ForeignKey(() => Bus)
     @Column({
         type: DataType.INTEGER,
         allowNull: false,
@@ -22,4 +23,9 @@ export class BusType extends Model {
         allowNull: false,
     })
     capacity: number;
+
+
+    
+    @BelongsTo(() => Bus)
+    bus: Bus[];
 }
