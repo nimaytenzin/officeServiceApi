@@ -1,4 +1,4 @@
-import { Bus } from './buses.entity';
+import { Bus } from './bus.entity';
 import { BUSES_REPOSITORY } from '../../core/constants';
 
 export const busesProviders = [{

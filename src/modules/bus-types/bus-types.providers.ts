@@ -1,4 +1,4 @@
-import { BusType } from './bus-types.entity';
+import { BusType } from './busType.entity';
 import { BUSTYPES_REPOSITORY } from '../../core/constants';
 
 export const busTypesProviders = [{

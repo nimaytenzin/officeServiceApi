@@ -1,6 +1,7 @@
 import { Table, Column, Model, DataType, HasOne, HasMany } from 'sequelize-typescript';
-import { BusType } from '../bus-types/bus-types.entity';
-import { Seats } from '../seats/seats.entity';
+import { BusType } from '../bus-types/busType.entity';
+import { Schedule } from '../schedules/schedule.entity';
+import { Seat } from '../seats/seat.entity';
 
 @Table
 export class Bus extends Model {
@@ -17,12 +18,14 @@ export class Bus extends Model {
     typeId: number;
 
     
-    @HasMany(() => Seats)
-    seats: Seats[];
+    @HasMany(() => Seat)
+    seat: Seat[];
 
     @HasOne(() => BusType)
     busType: BusType[];
 
+    @HasMany(() => Schedule)
+    schedule: Schedule;
 
 
 }

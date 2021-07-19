@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BUSES_REPOSITORY } from 'src/core/constants';
-import { BusType } from '../bus-types/bus-types.entity';
-import { Seats } from '../seats/seats.entity';
-import { Bus } from './buses.entity';
+import { BusType } from '../bus-types/busType.entity';
+import { Seat } from '../seats/seat.entity';
+import { Bus } from './bus.entity';
 import { BusDto } from './dto/buses.dto';
 
 @Injectable()
@@ -18,14 +18,14 @@ export class BusesService {
 
     async findAll(): Promise<Bus[]> {
         return this.busesRepository.findAll({
-            include: [BusType, Seats],
+            include: [BusType, Seat],
         } );
       }
 
     async findOneById(id: number): Promise<Bus> {
         return await this.busesRepository.findOne<Bus>({ 
             where: { id },
-            include: [BusType, Seats] });
+            include: [BusType, Seat] });
     }
 
     async update(id,data){

@@ -25,7 +25,7 @@ export class SchedulesController {
         console.log(dateTime);
         console.log(longDate);
         console.log(dateString[0]);
-        return await this.scheduleService.findOneByDate(dateString[0]);
+        return await this.scheduleService.findAllByDate(dateString[0]);
     }
 
     @Post()

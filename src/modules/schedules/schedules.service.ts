@@ -18,7 +18,7 @@ export class SchedulesService {
             where: { id } });
     }
 
-    async findOneByDate(date1: string): Promise<Schedule[]>{
+    async findAllByDate(date1: string): Promise<Schedule[]>{
         return await this.scheduleRepository.findAll<Schedule>({
             where: sequelize.where(
                 sequelize.fn('date',sequelize.col('departureTime')),

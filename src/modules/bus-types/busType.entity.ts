@@ -1,5 +1,5 @@
 import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, BelongsTo } from 'sequelize-typescript';
-import { Bus } from '../buses/buses.entity';
+import { Bus } from '../buses/bus.entity';
 
 @Table
 export class BusType extends Model {
@@ -15,7 +15,6 @@ export class BusType extends Model {
         type: DataType.STRING,
         allowNull: false,
     })
-
     type: string;
 
     @Column({
@@ -24,6 +23,17 @@ export class BusType extends Model {
     })
     capacity: number;
 
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
+    make: string;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
+    model: string;
 
     
     @BelongsTo(() => Bus)

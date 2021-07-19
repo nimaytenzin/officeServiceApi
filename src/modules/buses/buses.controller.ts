@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Req } from '@nestjs/common';
-import { Bus } from './buses.entity';
+import { Bus } from './bus.entity';
 import { BusesService } from './buses.service';
 import { BusDto } from './dto/buses.dto';
 
@@ -16,7 +16,6 @@ export class BusesController {
 
     @Get(":id")
     async findOneById(@Param() params){
-        console.log(params.id);
         return await this.busService.findOneById(params.id);
     }
 

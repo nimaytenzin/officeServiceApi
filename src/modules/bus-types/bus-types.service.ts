@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BUSTYPES_REPOSITORY } from 'src/core/constants';
-import { Bus } from '../buses/buses.entity';
-import { Seats } from '../seats/seats.entity';
-import { BusType } from './bus-types.entity';
+import { Bus } from '../buses/bus.entity';
+import { Seat } from '../seats/seat.entity';
+import { BusType } from './busType.entity';
 import { BusTypeDto } from './dto/bus-types.dto';
 
 @Injectable()

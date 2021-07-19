@@ -1,12 +1,18 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsTo,ForeignKey } from 'sequelize-typescript';
+import { Bus } from '../buses/bus.entity';
+import { Schedule } from '../schedules/schedule.entity';
+import { User } from '../users/user.entity';
 
 @Table
 export class Booking extends Model {
+    @ForeignKey(()=>Schedule)
     @Column({
         type: DataType.INTEGER,
         allowNull: false,
     })
     scheduleId: number;
+    @BelongsTo(()=>Schedule)
+    schedule: Schedule;
 
     @Column({
         type: DataType.DATE,
@@ -42,11 +48,14 @@ export class Booking extends Model {
     })
     checkSum: string;
 
+    @ForeignKey(()=>Bus)
     @Column({
         type: DataType.INTEGER,
         allowNull: false 
     })
     busId: number;
+    @BelongsTo(()=>Bus)
+    bus: Bus;
 
     @Column({
         type: DataType.DOUBLE,
@@ -60,9 +69,12 @@ export class Booking extends Model {
     })
     customerName: string;
 
+    @ForeignKey(()=>User)
     @Column({
         type: DataType.INTEGER,
         allowNull: true 
     })
     operatorId: number;
+    @BelongsTo(()=>User)
+    user: User;
 }

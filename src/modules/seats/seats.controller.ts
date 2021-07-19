@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
 import { SeatsDto } from './dto/seats.dto';
-import { Seats } from './seats.entity';
+import { Seat } from './seat.entity';
 import { SeatsService } from './seats.service';
 
 @Controller('seats')
@@ -11,12 +11,12 @@ export class SeatsController {
 
 
     @Get()
-    async findAll():Promise<Seats[]>{
+    async findAll():Promise<Seat[]>{
         return await this.seatService.findAll();
     }
 
     @Get(":id")
-    async findOneById(@Param() params){
+    async findOneById(@Param() params):Promise<Seat>{
         console.log(params.id);
         return await this.seatService.findOneById(params.id);
     }

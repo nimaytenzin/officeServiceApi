@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
-import { BusType } from './bus-types.entity';
+import { BusType } from './busType.entity';
 import { BusTypesService } from './bus-types.service';
 import { BusTypeDto } from './dto/bus-types.dto';
 

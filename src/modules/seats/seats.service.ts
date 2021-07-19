@@ -1,28 +1,28 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { SEATS_REPOSITORY } from 'src/core/constants';
-import { Bus } from '../buses/buses.entity';
+import { SEATS_REPOSITORY } from '../../core/constants'
+import { Bus } from '../buses/bus.entity';
 import { SeatsDto } from './dto/seats.dto';
-import { Seats } from './seats.entity';
+import { Seat } from './seat.entity';
 
 @Injectable()
 export class SeatsService {
 
     
-    constructor(@Inject(SEATS_REPOSITORY) private readonly seatsRepository: typeof Seats){}
+    constructor(@Inject(SEATS_REPOSITORY) private readonly seatsRepository: typeof Seat){}
 
 
-    async create(seats: SeatsDto): Promise<Seats> {
-        return await this.seatsRepository.create<Seats>(seats);
+    async create(seats: SeatsDto): Promise<Seat> {
+        return await this.seatsRepository.create<Seat>(seats);
     }
 
-    async findAll(): Promise<Seats[]> {
-        return this.seatsRepository.findAll({
+    async findAll(): Promise<Seat[]> {
+        return await this.seatsRepository.findAll({
             include: [Bus],
         });
       }
 
-    async findOneById(id: number): Promise<Seats> {
-        return await this.seatsRepository.findOne<Seats>({ 
+    async findOneById(id: number): Promise<Seat> {
+        return await this.seatsRepository.findOne<Seat>({ 
             where: { id },
             include: [Bus],
         });

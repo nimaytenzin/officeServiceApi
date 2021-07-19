@@ -1,9 +1,9 @@
 import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, BelongsTo} from 'sequelize-typescript';
-import { Bus } from '../buses/buses.entity';
+import { Bus } from '../buses/bus.entity';
 
 
 @Table
-export class Seats extends Model {
+export class Seat extends Model {
 
     @ForeignKey(() => Bus)
     @Column({
@@ -14,7 +14,7 @@ export class Seats extends Model {
     busId: number;
 
     @BelongsTo(() => Bus)
-    bus: Bus[];
+    bus: Bus;
     
 
     @Column({
