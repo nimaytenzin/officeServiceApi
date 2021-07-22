@@ -13,6 +13,7 @@ import { SeatsModule } from './modules/seats/seats.module';
 import { StopsModule } from './modules/stops/stops.module';
 import { InvoicesModule } from './modules/invoices/invoices.module';
 import { BookedSeatsModule } from './modules/booked-seats/booked-seats.module';
+import { DatesModule } from './modules/calendar-dates/calendar-dates.module';
 
 
 @Module({
@@ -28,7 +29,8 @@ import { BookedSeatsModule } from './modules/booked-seats/booked-seats.module';
     SeatsModule,
     StopsModule,
     InvoicesModule,
-    BookedSeatsModule
+    BookedSeatsModule,
+    DatesModule
   ],
   controllers: [AppController],
   providers: [AppService],
