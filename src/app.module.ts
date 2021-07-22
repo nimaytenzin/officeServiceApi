@@ -14,6 +14,7 @@ import { StopsModule } from './modules/stops/stops.module';
 import { InvoicesModule } from './modules/invoices/invoices.module';
 import { BookedSeatsModule } from './modules/booked-seats/booked-seats.module';
 import { DatesModule } from './modules/calendar-dates/calendar-dates.module';
+import { RoutesModule } from './modules/routes/routes.module';
 
 
 @Module({
@@ -30,7 +31,8 @@ import { DatesModule } from './modules/calendar-dates/calendar-dates.module';
     StopsModule,
     InvoicesModule,
     BookedSeatsModule,
-    DatesModule
+    DatesModule,
+    RoutesModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,5 +1,7 @@
 import { Table, Column, Model, DataType,ForeignKey,BelongsTo, HasOne } from 'sequelize-typescript';
 import { Bus } from '../buses/bus.entity';
+import { CalendarDate } from '../calendar-dates/calendar-dates.entity';
+import { Route } from '../routes/route.entity';
 import { Stop } from '../stops/stop.entity';
 
 @Table
@@ -8,7 +10,7 @@ export class Schedule extends Model {
     @ForeignKey(() => Bus)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false,
+        allowNull: true,
     })
     busId: number;
 
@@ -16,44 +18,22 @@ export class Schedule extends Model {
     bus: Bus;
 
     //originId
-    @ForeignKey(()=>Stop)
+    @ForeignKey(()=>Route)
     @Column({
         type: DataType.INTEGER,
         allowNull: false,
     })
-    originId: number;
-    @BelongsTo(()=>Stop,{foreignKey:"originId"})
-    origin: Stop; 
+    routeId: number;
+    @BelongsTo(()=>Route)
+    route: Route;
 
-    // destination id
-    @ForeignKey(()=>Stop)
-    @Column({
-        type: DataType.INTEGER,
-        allowNull: false,
-    })
-    destinationId:number
-    @BelongsTo(()=>Stop,{foreignKey:"destinationId"})
-    destination: Stop; 
-
-
+    @ForeignKey(()=>CalendarDate)
     @Column({
         type: DataType.DATE,
         allowNull: false,
     })
-    departureTime: Date;
-
-
-
-    @Column({
-        type: DataType.DATE,
-        allowNull: false,
-    })
-    ETA: Date;
-
-    @Column({
-        type: DataType.DOUBLE,
-        allowNull: true,
-    })
-    fare: Date;
+    dateId: Date;
+    @BelongsTo(()=>CalendarDate)
+    calendarDate: CalendarDate;
 
 }

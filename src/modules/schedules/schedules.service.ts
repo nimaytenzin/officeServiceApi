@@ -3,6 +3,7 @@ import { Schedule } from './schedule.entity';
 import { ScheduleDto} from './dto/schedule.dto';
 import { SCHEDULE_REPOSITORY } from '../../core/constants';
 import sequelize from 'sequelize';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class SchedulesService {
@@ -13,20 +14,23 @@ export class SchedulesService {
         return await this.scheduleRepository.create<Schedule>(schedule);
     }
 
-    async findOneById(id: number): Promise<Schedule> {
-        return await this.scheduleRepository.findOne<Schedule>({ 
-            where: { id } });
+    async findAllByRoute(id: number): Promise<Schedule[]> {
+        return await this.scheduleRepository.findAll<Schedule>({ 
+            where: { 
+                routeId: id
+            } });
     }
 
-    async findAllByDate(date1: string): Promise<Schedule[]>{
-        return await this.scheduleRepository.findAll<Schedule>({
-            where: sequelize.where(
-                sequelize.fn('date',sequelize.col('departureTime')),
-                "=",
-                date1
-            )
-        })
+    async findAllBetweenDates(from: Date,to: Date): Promise<Schedule[]> {
+        return this.scheduleRepository.findAll({
+            where: {
+                Calendar_Date:{
+                    [Op.between]:[from,to]
+                }
+            }
+        });
     }
+
 
     async update(id,data){
         const [numRows,num] = await this.scheduleRepository.update(

@@ -9,23 +9,15 @@ export class SchedulesController {
 
     // @UseGuards(AuthGuard('local'))
     @Get(":id")
-    async findOneById(@Param() params){
-        console.log(params.id);
-        return await this.scheduleService.findOneById(params.id);
+    async findAllByRoute(@Param() params){
+        return await this.scheduleService.findAllByRoute(params.id);
     }
 
-    @Get("date/:date")
-    async findOneByDate(@Param() params){
-        // convert datetime from long to date string
-        // Time part is ignored 
-        var longDate = Number(params.date);
-        var dateTime = new Date(longDate);
-        var dateString = dateTime.toJSON().split("T");
-
-        console.log(dateTime);
-        console.log(longDate);
-        console.log(dateString[0]);
-        return await this.scheduleService.findAllByDate(dateString[0]);
+    @Get("between/:from/:to")
+    async findAllBetweenDates(@Param() params){
+        var fromDateTime = new Date(Number(params.from)); 
+        var toDateTime = new Date(Number(params.to)); 
+        return await this.scheduleService.findAllBetweenDates(fromDateTime,toDateTime);
     }
 
     @Post()
