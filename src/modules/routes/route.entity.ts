@@ -25,16 +25,16 @@ export class Route extends Model {
     destination: Stop; 
 
     @Column({
-        type: DataType.DATE,
+        type: DataType.TIME,
         allowNull: false,
     })
-    departureTime: Date;
+    departureTime: string;
 
     @Column({
-        type: DataType.DATE,
+        type: DataType.TIME,
         allowNull: false,
     })
-    ETA: Date;
+    ETA: string;
 
     @Column({
         type: DataType.DOUBLE,

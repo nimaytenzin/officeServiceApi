@@ -8,10 +8,10 @@ export class RouteDto {
     readonly destinationId: number;
     
     @ApiProperty()
-    readonly departureTime: Date;
+    readonly departureTime: string;
 
     @ApiProperty()
-    readonly ETA: Date;
+    readonly ETA: string;
 
     @ApiProperty()
     readonly fare: number;

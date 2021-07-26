@@ -2,7 +2,6 @@ import { Table, Column, Model, DataType,ForeignKey,BelongsTo, HasOne } from 'seq
 import { Bus } from '../buses/bus.entity';
 import { CalendarDate } from '../calendar-dates/calendar-dates.entity';
 import { Route } from '../routes/route.entity';
-import { Stop } from '../stops/stop.entity';
 
 @Table
 export class Schedule extends Model {
@@ -36,4 +35,10 @@ export class Schedule extends Model {
     @BelongsTo(()=>CalendarDate)
     calendarDate: CalendarDate;
 
+    @Column({
+        type: DataType.TINYINT,
+        allowNull: false,
+        defaultValue:false
+    })
+    isFinished: number;
 }

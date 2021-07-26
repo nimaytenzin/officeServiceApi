@@ -8,4 +8,4 @@ import { calendarDatesProviders } from './calendar-dates.providers';
   exports:[CalendarDatesService],
   controllers: [CalendarDatesController]
 })
-export class DatesModule {}
+export class CalendarDatesModule {}

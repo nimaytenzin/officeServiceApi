@@ -2,12 +2,13 @@ import { ApiProperty} from "@nestjs/swagger";
 export class ScheduleDto {
     @ApiProperty()
     readonly busId: number;
+
     @ApiProperty()
-    readonly originId: number;
+    readonly routeId: number;
+
     @ApiProperty()
-    readonly destinationId: number;
+    readonly dateId: number;
+
     @ApiProperty()
-    readonly ETA: Date;
-    @ApiProperty()
-    readonly departureTime: Date;
+    readonly isFinished: number;
 }

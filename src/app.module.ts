@@ -13,7 +13,7 @@ import { SeatsModule } from './modules/seats/seats.module';
 import { StopsModule } from './modules/stops/stops.module';
 import { InvoicesModule } from './modules/invoices/invoices.module';
 import { BookedSeatsModule } from './modules/booked-seats/booked-seats.module';
-import { DatesModule } from './modules/calendar-dates/calendar-dates.module';
+import { CalendarDatesModule } from './modules/calendar-dates/calendar-dates.module';
 import { RoutesModule } from './modules/routes/routes.module';
 
 
@@ -31,7 +31,7 @@ import { RoutesModule } from './modules/routes/routes.module';
     StopsModule,
     InvoicesModule,
     BookedSeatsModule,
-    DatesModule,
+    CalendarDatesModule,
     RoutesModule
   ],
   controllers: [AppController],

@@ -15,7 +15,8 @@ export class CalendarDatesService {
                     [Op.between]:[from,to]
                 },
                 Day_Name: day
-            }
+            },
+            raw:true
         });
     }
 

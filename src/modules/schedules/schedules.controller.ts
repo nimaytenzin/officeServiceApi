@@ -1,4 +1,5 @@
 import { Controller,Post,Get,Request,Delete,Body,Param,Put,NotFoundException} from '@nestjs/common';
+import { ScheduleDayDto } from './dto/schedule-day.dto';
 import { ScheduleDto } from './dto/schedule.dto';
 import { SchedulesService } from './schedules.service';
 
@@ -21,8 +22,8 @@ export class SchedulesController {
     }
 
     @Post()
-    async create(@Body() schedules: ScheduleDto) {
-        return await this.scheduleService.create(schedules);
+    async createScheduleOnDayBetweenDates(@Body() scheduleObject: ScheduleDayDto) {
+        return await this.scheduleService.createScheduleOnDayBetweenDate(scheduleObject);
     }
 
     @Put(':id')
