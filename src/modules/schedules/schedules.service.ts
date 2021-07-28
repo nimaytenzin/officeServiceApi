@@ -16,40 +16,25 @@ export class SchedulesService {
         return await this.scheduleRepository.create<Schedule>(schedule);
     }
     
-    runTask(spec){
-
-    }
     // async createScheduleOnDayBetweenDate(route:number,day:number,from:Date,to:Date): Promise<Schedule[]> {
     async createScheduleOnDayBetweenDate(scheduleObject: ScheduleDayDto): Promise<Schedule[]> {
         var dayStrings = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 
-        var schedules = [];
         const indexPromise = Promise.resolve(null);
-        await scheduleObject.onDays.reduce(
-            (p,spec)=>p.then(()=>{
-                var dayName = dayStrings[Number(spec)];
-                this.calendarDatesService.findAllDayBetweenDates(dayName,scheduleObject.fromDate,scheduleObject.toDate).then(resp=>{
-                    resp.forEach((x,i)=>{
-                        console.log(x["Calendar_Date"])
-                        schedules.push({dateId:x["Calendar_Date"],routeId:scheduleObject.routeId})
-                    })
-                }),
-                indexPromise
-            })
-        )
-        // scheduleObject.onDays.forEach((item,idx)=>{
-        //     var dayName = dayStrings[Number(item)];
-        //     var dayDates = await this.calendarDatesService.findAllDayBetweenDates(dayName,scheduleObject.fromDate,scheduleObject.toDate).then(resp=>{
-        //         resp.forEach((x,i)=>{
-        //             console.log(x["Calendar_Date"]);
-        //             schedules.push({dateId:x['Calendar_Date'],routeId:scheduleObject.routeId});
-        //         })
-        //     });
-        //     var dayDates = await this.calendarDatesService.findAllDayBetweenDates(dayName,scheduleObject.fromDate,scheduleObject.toDate);
-        // });
 
-        console.log(schedules);
-        return await this.scheduleRepository.bulkCreate(schedules);
+
+        var masterSchedule = []
+        for (var item of scheduleObject.onDays){
+            var schedules = [];
+            var dayName = dayStrings[item];
+            var dates = await this.calendarDatesService.findAllDayBetweenDates(dayName,scheduleObject.fromDate,scheduleObject.toDate);
+            dates.forEach((item,i)=>{
+                schedules.push({dateId:item["Calendar_Date"],routeId:scheduleObject.routeId})
+            })
+            var createdSchedule = await this.scheduleRepository.bulkCreate(schedules);
+            masterSchedule.push(createdSchedule);
+        }
+        return masterSchedule;
     }
 
     async findAllByRoute(id: number): Promise<Schedule[]> {
