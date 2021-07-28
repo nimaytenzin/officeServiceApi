@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Populate_Dim_Date`(IN Start_Date DATE,IN End_Date DATE)
+CREATE PROCEDURE `Populate_Dim_Date`(IN Start_Date DATE,IN End_Date DATE)
 BEGIN
     
     DELETE FROM CalendarDates

@@ -18,7 +18,7 @@ export class BusTypesService {
 
     async findAll(): Promise<BusType[]> {
         return this.busTypesRepository.findAll({
-            include: [Bus],
+           
         });
       }
 
