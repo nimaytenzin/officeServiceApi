@@ -4,11 +4,12 @@ export class ScheduleDayDto {
     readonly routeId: number;
 
     @ApiProperty()
-    readonly onDay: number;
+    readonly onDays: number[];
 
     @ApiProperty()
     readonly fromDate: Date;
 
     @ApiProperty()
     readonly toDate: Date;
+
 }

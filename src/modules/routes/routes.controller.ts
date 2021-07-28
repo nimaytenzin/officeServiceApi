@@ -1,10 +1,15 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
 import { RouteDto } from './dto/route.dto';
 import { RoutesService } from './routes.service';
+import { RouteDayService } from '../route-day/route-day.service';
+import { RouteDayDto } from '../route-day/dto/routeDay.dto';
 
 @Controller('routes')
 export class RoutesController {
-    constructor(private routesService: RoutesService) {}
+    constructor(
+        private routesService: RoutesService,
+        private routeDayService: RouteDayService
+        ) {}
 
     @Get(":id")
     async findOneById(@Param() params){
@@ -24,7 +29,16 @@ export class RoutesController {
 
     @Post()
     async create(@Body() routes: RouteDto) {
-        return await this.routesService.create(routes);
+        const created = await this.routesService.create(routes);
+
+        var routeDays = routes.days; 
+        var routeDayObject = [];
+        routeDays.forEach((x,i)=>{
+            console.log(x["Calendar_Date"]);
+            routeDayObject.push({routeId:created.id,day:x});
+        })
+
+        return await this.routeDayService.createBulk(routeDayObject);
     }
 
     @Put(':id')

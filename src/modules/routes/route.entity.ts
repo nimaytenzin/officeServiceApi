@@ -40,6 +40,6 @@ export class Route extends Model {
         type: DataType.DOUBLE,
         allowNull: true,
     })
-    fare: Date;
+    fare: number;
 
 }

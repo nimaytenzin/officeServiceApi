@@ -15,4 +15,7 @@ export class RouteDto {
 
     @ApiProperty()
     readonly fare: number;
+
+    @ApiProperty()
+    readonly days: number[];
 }

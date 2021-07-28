@@ -23,6 +23,7 @@ export class Schedule extends Model {
         allowNull: false,
     })
     routeId: number;
+    
     @BelongsTo(()=>Route)
     route: Route;
 

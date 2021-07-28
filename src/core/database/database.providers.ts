@@ -12,6 +12,7 @@ import { Invoice } from 'src/modules/invoices/invoice.entity';
 import { BookedSeat } from 'src/modules/booked-seats/booked-seats.entity';
 import { CalendarDate } from 'src/modules/calendar-dates/calendar-dates.entity';
 import { Route } from 'src/modules/routes/route.entity';
+import { RouteDay } from 'src/modules/route-day/route-day.entity';
 
 
 export const databaseProviders = [{
@@ -32,7 +33,7 @@ export const databaseProviders = [{
            config = databaseConfig.development;
         }
         const sequelize = new Sequelize(config);
-        sequelize.addModels([User,Schedule,Booking, Bus, BusType, Seat, Stop, Invoice,BookedSeat, CalendarDate, Route]);
+        sequelize.addModels([User,Schedule,Booking, Bus, BusType, Seat, Stop, Invoice,BookedSeat, CalendarDate, Route, RouteDay]);
         await sequelize.sync();
         return sequelize;
     },
