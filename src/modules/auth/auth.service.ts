@@ -2,32 +2,40 @@ import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-
+import { LogInUserDto } from "../users/dto/loginUserDTO"
 @Injectable()
 export class AuthService {
     constructor(
         private readonly userService: UsersService,
         private readonly jwtService: JwtService
-        ){}
+    ) { }
 
-    async validateUser(username: string, pass:string){
-        const user = await this.userService.findOneByEmail(username);
-        if(!user){
+    async validateUser(email: string, pass: string) {
+        const user = await this.userService.findOneByEmail(email);
+        if (!user) {
             return null;
         }
 
-        const match = await this.comparePassword(pass,user.password);
-        if(!match){
+        const match = await this.comparePassword(pass, user.password);
+        if (!match) {
             return null;
         }
 
-        const { password,...result} = user['dataValues'];
+        const { password, ...result } = user['dataValues'];
         return result;
     }
 
     public async login(user) {
-        const token = await this.generateToken(user);
-        return { user, token };
+        const userdata = await this.validateUser(user.email, user.password)
+        console.log(userdata, "hits here")
+        if (userdata !== null) {
+            const token = await this.generateToken(userdata);
+            console.log(userdata)
+            return { token };
+        } else {
+            return null
+        }
+
     }
 
     public async create(user) {
@@ -57,8 +65,8 @@ export class AuthService {
         return hash;
     }
 
-    private async comparePassword(enteredPassword,dbPassword){
-        const match = await bcrypt.compare(enteredPassword,dbPassword);
+    private async comparePassword(enteredPassword, dbPassword) {
+        const match = await bcrypt.compare(enteredPassword, dbPassword);
         return match;
     }
 }

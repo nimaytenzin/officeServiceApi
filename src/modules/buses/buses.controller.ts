@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { Bus } from './bus.entity';
 import { BusesService } from './buses.service';
 import { BusDto } from './dto/buses.dto';
@@ -8,7 +9,7 @@ export class BusesController {
 
     constructor( private busService: BusesService){}
 
-
+    @UseGuards(AuthGuard('jwt'))
     @Get()
     async findAll():Promise<Bus[]>{
         return await this.busService.findAll();

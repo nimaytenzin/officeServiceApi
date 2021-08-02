@@ -1,16 +1,21 @@
-import { Controller, Body, Post, UseGuards, Request } from '@nestjs/common';
+import { Controller, Body, Post, UseGuards, Request, Res, HttpStatus } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { UserDto } from '../users/dto/user.dto';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) {}
 
-    @UseGuards(AuthGuard('local'))
     @Post('login')
-    async login(@Request() req) {
-        return await this.authService.login(req.user);
+    async login(@Res() response: Response,@Body() user) {
+        const res = await this.authService.login(user);
+        if(res === null){
+            response.status(HttpStatus.UNAUTHORIZED).send("Unauthorized")
+        }else{
+            response.status(HttpStatus.OK).send(res)
+        }
     }
 
     @Post('signup')
