@@ -21,6 +21,11 @@ export class SchedulesController {
         return await this.scheduleService.findAllBetweenDates(fromDateTime,toDateTime);
     }
 
+    @Get("date/:date")
+    async findAllByDate(@Param() params){
+        return await this.scheduleService.findByDate(params.date)
+    }
+
     @Post()
     async createScheduleOnDayBetweenDates(@Body() scheduleObject: ScheduleDayDto) {
         return await this.scheduleService.createScheduleOnDayBetweenDate(scheduleObject);
@@ -38,6 +43,16 @@ export class SchedulesController {
 
     @Delete(':id')
     async delete(@Param('id') id: number ) {
+        const deleted = await this.scheduleService.delete(id);
+
+        if (deleted === 0) {
+            throw new NotFoundException('This Post doesn\'t exist');
+        }
+        return 'Successfully deleted';
+    }
+
+    @Delete('/route/:routeId')
+    async deletebyRouteId(@Param('routeId') id: number ) {
         const deleted = await this.scheduleService.delete(id);
 
         if (deleted === 0) {

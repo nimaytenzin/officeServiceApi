@@ -1,12 +1,13 @@
-import { Injectable,Inject } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Schedule } from './schedule.entity';
-import { ScheduleDto} from './dto/schedule.dto';
+import { ScheduleDto } from './dto/schedule.dto';
 import { SCHEDULE_REPOSITORY } from '../../core/constants';
 import sequelize, { DataTypes } from 'sequelize';
 import { Op } from 'sequelize';
 import { CalendarDatesService } from '../calendar-dates/calendar-dates.service';
 import { ScheduleDayDto } from './dto/schedule-day.dto';
-
+import { Route } from '../routes/route.entity'
+import { Stop } from '../stops/stop.entity';
 @Injectable()
 export class SchedulesService {
 
@@ -15,21 +16,21 @@ export class SchedulesService {
     async create(schedule: ScheduleDto): Promise<Schedule> {
         return await this.scheduleRepository.create<Schedule>(schedule);
     }
-    
+
     // async createScheduleOnDayBetweenDate(route:number,day:number,from:Date,to:Date): Promise<Schedule[]> {
     async createScheduleOnDayBetweenDate(scheduleObject: ScheduleDayDto): Promise<Schedule[]> {
-        var dayStrings = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+        var dayStrings = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
         const indexPromise = Promise.resolve(null);
 
 
         var masterSchedule = []
-        for (var item of scheduleObject.onDays){
+        for (var item of scheduleObject.onDays) {
             var schedules = [];
             var dayName = dayStrings[item];
-            var dates = await this.calendarDatesService.findAllDayBetweenDates(dayName,scheduleObject.fromDate,scheduleObject.toDate);
-            dates.forEach((item,i)=>{
-                schedules.push({dateId:item["Calendar_Date"],routeId:scheduleObject.routeId})
+            var dates = await this.calendarDatesService.findAllDayBetweenDates(dayName, scheduleObject.fromDate, scheduleObject.toDate);
+            dates.forEach((item, i) => {
+                schedules.push({ dateId: item["Calendar_Date"], routeId: scheduleObject.routeId })
             })
             var createdSchedule = await this.scheduleRepository.bulkCreate(schedules);
             masterSchedule.push(createdSchedule);
@@ -38,36 +39,64 @@ export class SchedulesService {
     }
 
     async findAllByRoute(id: number): Promise<Schedule[]> {
-        return await this.scheduleRepository.findAll<Schedule>({ 
-            where: { 
+        return await this.scheduleRepository.findAll<Schedule>({
+            where: {
                 routeId: id
-            } 
+            }
         });
     }
 
-    async findAllBetweenDates(from: Date,to: Date): Promise<Schedule[]> {
+    async findAllBetweenDates(from: Date, to: Date): Promise<Schedule[]> {
         return this.scheduleRepository.findAll({
             where: {
-                Calendar_Date:{
-                    [Op.between]:[from,to]
+                Calendar_Date: {
+                    [Op.between]: [from, to]
                 }
             }
         });
     }
 
+    async findByDate(date): Promise<Schedule[]> {
+        return this.scheduleRepository.findAll({
+            where: sequelize.where(
+                sequelize.fn('date', sequelize.col('dateId')),
+                "=",
+                date
+            ),
+            include: [{
+                all: true,
+                nested: true
+            }]
+        } ,
+        );
+    }
 
-    async update(id,data){
-        const [numRows,num] = await this.scheduleRepository.update(
-            {...data},
+
+
+
+
+    async update(id, data) {
+        const [numRows, num] = await this.scheduleRepository.update(
+            { ...data },
             {
-                where:{ id },
+                where: { id },
                 returning: true
             }
         );
-        return { numRows,num}
+        return { numRows, num }
     }
 
     async delete(id) {
         return await this.scheduleRepository.destroy({ where: { id } });
+    }
+
+    async deleteByRouteId(id) {
+        return await this.scheduleRepository.destroy({
+            where: sequelize.where(
+                sequelize.fn('date', sequelize.col('routeId')),
+                "=",
+                id
+            ),
+        });
     }
 }

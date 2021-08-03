@@ -10,6 +10,7 @@ export class RouteDay extends Model {
         allowNull: false,
     })
     routeId: number;
+    
     @BelongsTo(()=>Route)
     route : Route; 
 

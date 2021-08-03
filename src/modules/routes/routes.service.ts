@@ -11,6 +11,17 @@ export class RoutesService {
         return await this.routesRepository.create<Route>(route);
     }
 
+   
+
+    async findAll(): Promise<Route[]> {
+        return this.routesRepository.findAll({
+            include:[{
+                all:true,
+                nested:true
+            }]
+        } );
+      }
+
     async findOneById(id: number): Promise<Route> {
         return await this.routesRepository.findOne<Route>({ 
             where: { id } });
@@ -44,6 +55,6 @@ export class RoutesService {
     }
 
     async delete(id) {
-        return await this.routesRepository.destroy({ where: { id } });
+        return await this.routesRepository.destroy({where:{ id }});
     }
 }
