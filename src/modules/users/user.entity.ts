@@ -21,6 +21,8 @@ export class User extends Model {
     })
     password: string;
 
+    
+
     @Column({
         type: DataType.INTEGER,
         allowNull: false,

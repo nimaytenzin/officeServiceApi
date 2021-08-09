@@ -35,6 +35,11 @@ export class RoutesController {
         return await this.routesService.findAllByDestinationId(params.id);
     }
 
+    @Get(":originId/:destinationId")
+    async findByOriginDestination(@Param() params) {
+        return await this.routesService.findRouteByOriginDestination(params.originId,params.destinationId);
+    }
+
     @Post()
     async create(@Body() routes: RouteDto) {
         const created = await this.routesService.create(routes);

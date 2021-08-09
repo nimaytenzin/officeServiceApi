@@ -35,6 +35,15 @@ export class RoutesService {
         });
     }
 
+    async findRouteByOriginDestination(originId:number, destinationId:number){
+        return await this.routesRepository.findAll<Route>({
+            where:{
+                originId:originId,
+                destinationId:destinationId
+            }
+        })
+    }
+
     async findAllByDestinationId(destId: number): Promise<Route[]> {
         return await this.routesRepository.findAll<Route>({ 
             where: { 

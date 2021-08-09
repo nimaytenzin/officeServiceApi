@@ -1,15 +1,32 @@
 import { Injectable,Inject } from '@nestjs/common';
 import { Booking } from './booking.entity';
-import { BookingDto } from './dto/booking.dto';
 import { BOOKING_REPOSITORY } from '../../core/constants'
+import { BookingWithSeatsDto } from './dto/bookingwithSeats.dto'
+import { BookedSeatsDto} from '../booked-seats/dto/bookedSeat.dto'
 import sequelize from 'sequelize';
+import { BookedSeatsService} from '../booked-seats/booked-seats.service'
+
 
 @Injectable()
 export class BookingsService {
-    constructor(@Inject(BOOKING_REPOSITORY) private readonly bookingRepository: typeof Booking) { }
+    constructor(@Inject(BOOKING_REPOSITORY) private readonly bookingRepository: typeof Booking, private bookedSeatServices:BookedSeatsService ) { }
 
-    async create(booking: BookingDto): Promise<Booking> {
-        return await this.bookingRepository.create<Booking>(booking);
+    async create(bookingwithSeats: BookingWithSeatsDto): Promise<Booking> {
+        
+        var newBooking =  await this.bookingRepository.create<Booking>(bookingwithSeats.booking);
+        let bookingId = newBooking.id;
+        
+        bookingwithSeats.seats.forEach(seat => {
+            let newSeat:BookedSeatsDto ={
+                bookingId : bookingId,
+                scheduleId : bookingwithSeats.booking.scheduleId,
+                seatNumber: seat
+            }
+          this.bookedSeatServices.create(newSeat)
+        });
+
+        return newBooking
+        
     }
 
     async findOneById(id: number): Promise<Booking> {

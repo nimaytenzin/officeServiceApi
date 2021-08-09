@@ -1,30 +1,39 @@
-import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, BelongsTo} from 'sequelize-typescript';
+import { Table, Column, Model, DataType, ForeignKey, PrimaryKey, BelongsTo } from 'sequelize-typescript';
+import { Col } from 'sequelize/types/lib/utils';
 import { Booking } from '../bookings/booking.entity';
+import { Schedule } from '../schedules/schedule.entity';
 import { Seat } from '../seats/seat.entity';
 
 
 @Table
 export class BookedSeat extends Model {
 
-    @ForeignKey(() => Seat)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false, 
+        allowNull: false
     })
-    seatId: number;
+    seatNumber: number;
 
-    @BelongsTo(() => Seat)
-    seat: Seat;
-   
     @ForeignKey(() => Booking)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false, 
+        allowNull: false,
     })
     bookingId: number;
 
     @BelongsTo(() => Booking)
     booking: Booking;
+
+
+    @ForeignKey(() => Schedule)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    scheduleId: number;
+
+    @BelongsTo(() => Schedule)
+    schedule: Schedule;
 }
 
 

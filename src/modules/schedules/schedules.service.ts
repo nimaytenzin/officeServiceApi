@@ -2,22 +2,31 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Schedule } from './schedule.entity';
 import { ScheduleDto } from './dto/schedule.dto';
 import { SCHEDULE_REPOSITORY } from '../../core/constants';
+import { BOOKING_REPOSITORY } from '../../core/constants';
 import sequelize, { DataTypes } from 'sequelize';
 import { Op } from 'sequelize';
 import { CalendarDatesService } from '../calendar-dates/calendar-dates.service';
 import { ScheduleDayDto } from './dto/schedule-day.dto';
-import { Route } from '../routes/route.entity'
-import { Stop } from '../stops/stop.entity';
+
+import { BookingsService} from '../bookings/bookings.service'
+import { Booking } from '../bookings/booking.entity';
 @Injectable()
 export class SchedulesService {
 
-    constructor(@Inject(SCHEDULE_REPOSITORY) private readonly scheduleRepository: typeof Schedule, private calendarDatesService: CalendarDatesService) { }
+    constructor(@Inject(SCHEDULE_REPOSITORY)  private readonly scheduleRepository: typeof Schedule,
+     private calendarDatesService: CalendarDatesService,
+     private bookingsService:BookingsService
+     ) { }
 
     async create(schedule: ScheduleDto): Promise<Schedule> {
         return await this.scheduleRepository.create<Schedule>(schedule);
     }
 
-    // async createScheduleOnDayBetweenDate(route:number,day:number,from:Date,to:Date): Promise<Schedule[]> {
+    async findOneById(id: number): Promise<Schedule> {
+        return await this.scheduleRepository.findOne<Schedule>({ 
+            where: { id }
+    })}
+
     async createScheduleOnDayBetweenDate(scheduleObject: ScheduleDayDto): Promise<Schedule[]> {
         var dayStrings = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -46,10 +55,49 @@ export class SchedulesService {
         });
     }
 
+    async findByRouteDate(routeId: number, date): Promise<Schedule[]> {
+        return await this.scheduleRepository.findAll<Schedule>({
+            where: {
+                routeId: routeId,
+                dateId: {
+                    [Op.eq]: date
+                  }
+            }
+        });
+    }
+
+    async findBusByBookingId(bookingId: number): Promise<Schedule[]> {
+        let booking = await this.bookingsService.findOneById(bookingId)
+        let scheduleId = booking.scheduleId
+        console.log(booking.scheduleId)
+        return await this.scheduleRepository.findAll<Schedule>({
+            where: {
+                id: scheduleId
+            },
+            include: [{
+                all: true,
+                nested: true
+            }]
+        });
+    }
+
     async findAllBetweenDates(from: Date, to: Date): Promise<Schedule[]> {
         return this.scheduleRepository.findAll({
             where: {
-                Calendar_Date: {
+                dateId: {
+                    [Op.between]: [from, to]
+                }
+            }
+        });
+    }
+
+    async getNextSevenDaySchedule():Promise<Schedule[]>{
+        var from = new Date().getTime()
+        var to = new Date().setDate(new Date().getDate() + 7)
+        
+        return this.scheduleRepository.findAll({
+            where: {
+                dateId: {
                     [Op.between]: [from, to]
                 }
             }
@@ -83,6 +131,7 @@ export class SchedulesService {
                 returning: true
             }
         );
+        console.log("Updating ")
         return { numRows, num }
     }
 
@@ -100,3 +149,5 @@ export class SchedulesService {
         });
     }
 }
+
+

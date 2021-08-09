@@ -21,10 +21,23 @@ export class Booking extends Model {
     bookingTime: Date;
 
     @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
+    customerName: string;
+
+    @Column({
         type: DataType.INTEGER,
         allowNull: false,
     })
     customerContact: number;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
+    customerCid: string;
+
 
     @Column({
         type: DataType.ENUM,
@@ -51,7 +64,7 @@ export class Booking extends Model {
     @ForeignKey(()=>Bus)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false 
+        allowNull: true 
     })
     busId: number;
     @BelongsTo(()=>Bus)
@@ -59,15 +72,10 @@ export class Booking extends Model {
 
     @Column({
         type: DataType.DOUBLE,
-        allowNull: true 
+        allowNull: false 
     })
     amount: number;
 
-    @Column({
-        type: DataType.STRING,
-        allowNull: true 
-    })
-    customerName: string;
 
     @ForeignKey(()=>User)
     @Column({

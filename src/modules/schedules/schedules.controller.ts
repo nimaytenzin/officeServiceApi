@@ -8,11 +8,11 @@ export class SchedulesController {
 
     constructor(private scheduleService: SchedulesService) {}
 
-    // @UseGuards(AuthGuard('local'))
     @Get(":id")
     async findAllByRoute(@Param() params){
         return await this.scheduleService.findAllByRoute(params.id);
     }
+
 
     @Get("between/:from/:to")
     async findAllBetweenDates(@Param() params){
@@ -24,6 +24,21 @@ export class SchedulesController {
     @Get("date/:date")
     async findAllByDate(@Param() params){
         return await this.scheduleService.findByDate(params.date)
+    }
+
+    @Get("busdetails/:bookingId")
+    async getScheduleBy(@Param() params){
+        return await this.scheduleService.findBusByBookingId(params.bookingId)
+    }
+
+    @Get(":routeId/:date")
+    async findByRouteDate(@Param() params){
+        return await this.scheduleService.findByRouteDate(params.routeId,params.date)
+    }
+
+    @Get("nextSeven")
+    async getNextSevenDaySchedule(){
+        return await this.scheduleService.getNextSevenDaySchedule()
     }
 
     @Post()
@@ -53,7 +68,7 @@ export class SchedulesController {
 
     @Delete('/route/:routeId')
     async deletebyRouteId(@Param('routeId') id: number ) {
-        const deleted = await this.scheduleService.delete(id);
+        const deleted = await this.scheduleService.deleteByRouteId(id);
 
         if (deleted === 0) {
             throw new NotFoundException('This Post doesn\'t exist');

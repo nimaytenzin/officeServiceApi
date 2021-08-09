@@ -7,5 +7,10 @@ export class Stop extends Model {
         allowNull: false,
     })
     name: string;
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    contact: number;
 
 }
