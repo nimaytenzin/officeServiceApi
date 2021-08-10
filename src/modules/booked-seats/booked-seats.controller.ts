@@ -13,6 +13,11 @@ export class BookedSeatsController {
         return await this.bookedSeatService.create(bookedSeats);
     }
 
+    @Get('/redis-test')
+    async redistest():Promise<any>{
+        return await this.bookedSeatService.redisTest();
+    }
+
     @Get(':id')
     async findOneById(@Param('id') id: number): Promise<BookedSeat> {
         return await this.bookedSeatService.findOneById({

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './core/database/database.module';
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { SchedulesModule } from './modules/schedules/schedules.module';
@@ -16,6 +16,7 @@ import { BookedSeatsModule } from './modules/booked-seats/booked-seats.module';
 import { CalendarDatesModule } from './modules/calendar-dates/calendar-dates.module';
 import { RoutesModule } from './modules/routes/routes.module';
 import { RouteDayModule } from './modules/route-day/route-day.module';
+import { RedisModule } from './modules/redis/redis.module';
 
 
 @Module({
@@ -34,7 +35,8 @@ import { RouteDayModule } from './modules/route-day/route-day.module';
     BookedSeatsModule,
     CalendarDatesModule,
     RoutesModule,
-    RouteDayModule
+    RouteDayModule,
+    RedisModule
   ],
   controllers: [AppController],
   providers: [AppService],
