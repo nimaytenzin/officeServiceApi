@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
 import { BookingWithSeatsDto } from './dto/bookingwithSeats.dto'
-
+import { BookingDto } from './dto/booking.dto'
 import { BookingsService } from "./bookings.service"
-
+import {Booking } from './booking.entity'
 @Controller('bookings')
 export class BookingsController {
 
@@ -14,6 +14,29 @@ export class BookingsController {
     async create(@Body() bookingWithSeats: BookingWithSeatsDto) {
         return await this.bookingService.create(bookingWithSeats);
 
+    }
+
+    @Get('cancelled')
+    async findAll():Promise<Booking[]>{
+        return await this.bookingService.findAllCancelled();
+    }
+
+    @Get(':id')
+    async findOne(@Param('id')id: number):Promise<Booking>{
+        return await this.bookingService.findOneById(id);
+    }
+
+
+
+    @Put(':id')
+    async update(@Param('id')id: number, @Body() booking: BookingDto) {
+        const { numRows, num} = await this.bookingService.update(id, booking);
+
+        if (numRows === 0) {
+            throw new NotFoundException('This Post doesn\'t exist');
+        }
+
+        return 'updated sccuessfully';
     }
 
 }

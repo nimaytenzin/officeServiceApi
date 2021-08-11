@@ -31,7 +31,12 @@ export class BookingsService {
 
     async findOneById(id: number): Promise<Booking> {
         return await this.bookingRepository.findOne<Booking>({ 
-            where: { id } });
+            where: { id },
+            include: [{
+                all: true,
+                nested: true
+            }]
+        });
     }
 
     async findOneByDate(date: string): Promise<Booking[]>{
@@ -44,6 +49,18 @@ export class BookingsService {
         })
     }
 
+
+    async findAllCancelled(): Promise<Booking[]>{
+        return this.bookingRepository.findAll<Booking>({ 
+            where: {
+                checkInStatus: 'CANCELLED'
+            },
+            include: [{
+                all: true,
+                nested: true
+            }] });
+    }
+
     async update(id,data){
         const [numRows,num] = await this.bookingRepository.update(
             {...data},
@@ -52,6 +69,7 @@ export class BookingsService {
                 returning: true
             }
         );
+        await this.bookedSeatServices.deleteAllByBookingId(id)
         return { numRows,num}
     }
 

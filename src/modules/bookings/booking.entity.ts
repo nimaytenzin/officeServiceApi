@@ -40,6 +40,26 @@ export class Booking extends Model {
 
 
     @Column({
+        type: DataType.INTEGER,
+        allowNull: true,
+    })
+    accNo: number;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: true,
+    })
+    accName: string;
+
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: true,
+    })
+    bankName: string;
+
+
+    @Column({
         type: DataType.ENUM,
         values: ["PAID","UNPAID"],
         allowNull: false,
@@ -49,7 +69,7 @@ export class Booking extends Model {
 
     @Column({
         type: DataType.ENUM,
-        values: ["CHECKOUT","CHECKIN"],
+        values: ["CHECKOUT","CHECKIN","CANCELLED","REFUNDED"],
         allowNull: false,
         defaultValue: "CHECKOUT"
     })

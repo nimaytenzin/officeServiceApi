@@ -8,9 +8,14 @@ export class SchedulesController {
 
     constructor(private scheduleService: SchedulesService) {}
 
-    @Get(":id")
+    @Get("routeId/:id")
     async findAllByRoute(@Param() params){
         return await this.scheduleService.findAllByRoute(params.id);
+    }
+
+    @Get(":id")
+    async findOneById(@Param() params){
+        return await this.scheduleService.findOneById(params.id);
     }
 
 
@@ -55,6 +60,18 @@ export class SchedulesController {
         }
         return 'updated sccuessfully';
     }
+
+    @Put('cancel/:id')
+    async cancel(@Param('id')id: number, @Body() schedules: ScheduleDto) {
+        const { numRows, num} = await this.scheduleService.cancelSchedule(id, schedules);
+
+        if (numRows === 0) {
+            throw new NotFoundException('This Post doesn\'t exist');
+        }
+        return 'updated sccuessfully';
+    }
+
+
 
     @Delete(':id')
     async delete(@Param('id') id: number ) {

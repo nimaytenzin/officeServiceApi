@@ -34,4 +34,12 @@ export class BookedSeatsService {
     async delete(id) {
         return await this.bookedSeatsRepository.destroy({ where: { id } });
     }
+
+    async deleteAllByBookingId(bookingId) {
+        return await this.bookedSeatsRepository.destroy({ where: { 
+            bookingId:bookingId
+         }}).then(res =>{
+             return res
+         });
+    }
 }

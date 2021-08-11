@@ -24,7 +24,11 @@ export class SchedulesService {
 
     async findOneById(id: number): Promise<Schedule> {
         return await this.scheduleRepository.findOne<Schedule>({ 
-            where: { id }
+            where: { id },
+            include: [{
+                all: true,
+                nested: true
+            }]
     })}
 
     async createScheduleOnDayBetweenDate(scheduleObject: ScheduleDayDto): Promise<Schedule[]> {
@@ -66,11 +70,11 @@ export class SchedulesService {
         });
     }
 
-    async findBusByBookingId(bookingId: number): Promise<Schedule[]> {
+    async findBusByBookingId(bookingId: number): Promise<Schedule> {
         let booking = await this.bookingsService.findOneById(bookingId)
         let scheduleId = booking.scheduleId
         console.log(booking.scheduleId)
-        return await this.scheduleRepository.findAll<Schedule>({
+        return await this.scheduleRepository.findOne<Schedule>({
             where: {
                 id: scheduleId
             },
@@ -90,6 +94,7 @@ export class SchedulesService {
             }
         });
     }
+
 
     async getNextSevenDaySchedule():Promise<Schedule[]>{
         var from = new Date().getTime()
@@ -134,6 +139,19 @@ export class SchedulesService {
         console.log("Updating ")
         return { numRows, num }
     }
+
+    async cancelSchedule(id,data){
+        const [numRows, num] = await this.scheduleRepository.update(
+            { ...data },
+            {
+                where: { id },
+                returning: true
+            }
+        );
+        console.log("Updating ")
+        return { numRows, num }
+    }
+
 
     async delete(id) {
         return await this.scheduleRepository.destroy({ where: { id } });

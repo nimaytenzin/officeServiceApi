@@ -1,5 +1,6 @@
-import { Table, Column, Model, DataType,ForeignKey,BelongsTo, HasOne } from 'sequelize-typescript';
+import { Table, Column, Model, DataType,ForeignKey,BelongsTo, HasMany } from 'sequelize-typescript';
 import { Bus } from '../buses/bus.entity';
+import { BookedSeat } from '../booked-seats/booked-seats.entity'
 import { CalendarDate } from '../calendar-dates/calendar-dates.entity';
 import { Route } from '../routes/route.entity';
 
@@ -42,4 +43,7 @@ export class Schedule extends Model {
         defaultValue:false
     })
     isFinished: number;
+
+    @HasMany(() => BookedSeat)
+    bookedSeats: BookedSeat[]
 }
