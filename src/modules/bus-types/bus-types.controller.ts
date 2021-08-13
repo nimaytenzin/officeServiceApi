@@ -9,7 +9,6 @@ export class BusTypesController {
 
     constructor( private busTypeService: BusTypesService){}
 
-    @UseGuards(AuthGuard('jwt'))
     @Get()
     async findAll():Promise<BusType[]>{
         return await this.busTypeService.findAll();

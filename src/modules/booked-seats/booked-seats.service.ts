@@ -15,6 +15,15 @@ export class BookedSeatsService {
             where : {bookingId:id}
         });
     }
+
+    async findAllbyScheduleAndBookingId(bookingId,ScheduleId):Promise<BookedSeat[]>{
+        return await this.bookedSeatsRepository.findAll<BookedSeat>({
+            where:{
+                scheduleId:ScheduleId,
+                bookingId:bookingId
+            }
+        })
+    }
     async findOneById(id): Promise<BookedSeat>{
         return await this.bookedSeatsRepository.findOne<BookedSeat>({
             where: {id}
