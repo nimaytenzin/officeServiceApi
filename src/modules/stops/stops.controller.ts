@@ -8,6 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class StopsController {
     constructor(private stopService: StopsService){}
 
+
     @Get()
     async findAll():Promise<Stop[]>{
         return await this.stopService.findAll();

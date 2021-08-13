@@ -24,9 +24,7 @@ export class BookingsService {
             }
           this.bookedSeatServices.create(newSeat)
         });
-
         return newBooking
-        
     }
 
     async findOneById(id: number): Promise<Booking> {
@@ -62,6 +60,36 @@ export class BookingsService {
     }
 
     async update(id,data){
+        const [numRows,num] = await this.bookingRepository.update(
+            {...data},
+            {
+                where:{ id },
+                returning: true
+            }
+        );
+        
+        let ok = await this.bookedSeatServices.findAllByBookingId(id)
+        console.log(ok)
+        ok.forEach(ele =>{
+             this.bookedSeatServices.update(ele.id, data)
+        })
+        return { numRows,num}
+    }
+
+    async transferBooking(id,data){
+        const [numRows,num] = await this.bookingRepository.update(
+            {...data},
+            {
+                where:{ id },
+                returning: true
+            }
+        );
+        console.log("ok \n")
+        console.log(num)
+        return { numRows,num}
+    }
+
+    async cancelBooking(id,data){
         const [numRows,num] = await this.bookingRepository.update(
             {...data},
             {

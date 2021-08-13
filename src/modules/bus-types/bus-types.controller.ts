@@ -29,8 +29,6 @@ export class BusTypesController {
         return await this.busTypeService.create(busType);
     }
 
-
-
     @Put(':id')
     async update(@Param('id')id: number, @Body() busType: BusTypeDto) {
         const { numRows, num} = await this.busTypeService.update(id, busType);

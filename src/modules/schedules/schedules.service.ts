@@ -10,6 +10,12 @@ import { ScheduleDayDto } from './dto/schedule-day.dto';
 
 import { BookingsService} from '../bookings/bookings.service'
 import { Booking } from '../bookings/booking.entity';
+import { BookedSeat } from '../booked-seats/booked-seats.entity';
+import { Route } from '../routes/route.entity';
+import { Bus } from '../buses/bus.entity';
+import { CalendarDate } from '../calendar-dates/calendar-dates.entity';
+import { Stop } from '../stops/stop.entity';
+import { all } from 'sequelize/types/lib/operators';
 @Injectable()
 export class SchedulesService {
 
@@ -25,10 +31,32 @@ export class SchedulesService {
     async findOneById(id: number): Promise<Schedule> {
         return await this.scheduleRepository.findOne<Schedule>({ 
             where: { id },
-            include: [{
-                all: true,
-                nested: true
-            }]
+            include: [
+                {
+                    model:Booking,
+                    include:[
+                        {
+                            model:BookedSeat,
+                            where:{
+                                scheduleId:id
+                            }
+                        }
+                    ]
+                },
+                {
+                    model:Route,
+                    include: [{
+                        all: true,
+                        nested: true
+                    }]
+                },
+                {
+                    model:Bus
+                },
+                {
+                    model:CalendarDate
+                }
+            ]
     })}
 
     async createScheduleOnDayBetweenDate(scheduleObject: ScheduleDayDto): Promise<Schedule[]> {
@@ -136,7 +164,6 @@ export class SchedulesService {
                 returning: true
             }
         );
-        console.log("Updating ")
         return { numRows, num }
     }
 

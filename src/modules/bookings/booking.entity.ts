@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType, BelongsTo,ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsTo,ForeignKey,HasMany } from 'sequelize-typescript';
+import { BookedSeat } from '../booked-seats/booked-seats.entity';
 import { Bus } from '../buses/bus.entity';
 import { Schedule } from '../schedules/schedule.entity';
 import { User } from '../users/user.entity';
@@ -105,4 +106,8 @@ export class Booking extends Model {
     operatorId: number;
     @BelongsTo(()=>User)
     user: User;
+
+    @HasMany(() => BookedSeat)
+    bookedSeats: BookedSeat[]
+    
 }

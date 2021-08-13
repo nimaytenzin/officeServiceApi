@@ -9,6 +9,7 @@ export class BusesController {
 
     constructor( private busService: BusesService){}
 
+
     @Get()
     async findAll():Promise<Bus[]>{
         return await this.busService.findAll();

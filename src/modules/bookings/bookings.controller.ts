@@ -26,16 +26,34 @@ export class BookingsController {
         return await this.bookingService.findOneById(id);
     }
 
-
-
     @Put(':id')
     async update(@Param('id')id: number, @Body() booking: BookingDto) {
         const { numRows, num} = await this.bookingService.update(id, booking);
 
+        console.log("Updating without deleting")
         if (numRows === 0) {
             throw new NotFoundException('This Post doesn\'t exist');
         }
+        return 'updated sccuessfully';
+    }
 
+    @Put('cancel/:id')
+    async cancel(@Param('id')id: number, @Body() booking: BookingDto) {
+        const { numRows, num} = await this.bookingService.cancelBooking(id, booking);
+
+        if (numRows === 0) {
+            throw new NotFoundException('This Post doesn\'t exist');
+        }
+        return 'updated sccuessfully';
+    }
+
+    @Put('transfer/:id')
+    async transfer(@Param('id')id: number, @Body() booking: BookingDto) {
+        const { numRows, num} = await this.bookingService.transferBooking(id, booking);
+
+        if (numRows === 0) {
+            throw new NotFoundException('This Post doesn\'t exist');
+        }
         return 'updated sccuessfully';
     }
 

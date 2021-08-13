@@ -61,15 +61,6 @@ export class SchedulesController {
         return 'updated sccuessfully';
     }
 
-    @Put('cancel/:id')
-    async cancel(@Param('id')id: number, @Body() schedules: ScheduleDto) {
-        const { numRows, num} = await this.scheduleService.cancelSchedule(id, schedules);
-
-        if (numRows === 0) {
-            throw new NotFoundException('This Post doesn\'t exist');
-        }
-        return 'updated sccuessfully';
-    }
 
 
 

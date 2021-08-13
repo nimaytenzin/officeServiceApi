@@ -3,6 +3,7 @@ import { Bus } from '../buses/bus.entity';
 import { BookedSeat } from '../booked-seats/booked-seats.entity'
 import { CalendarDate } from '../calendar-dates/calendar-dates.entity';
 import { Route } from '../routes/route.entity';
+import { Booking } from '../bookings/booking.entity';
 
 @Table
 export class Schedule extends Model {
@@ -43,6 +44,9 @@ export class Schedule extends Model {
         defaultValue:false
     })
     isFinished: number;
+
+    @HasMany(() => Booking)
+    bookings: Booking[]
 
     @HasMany(() => BookedSeat)
     bookedSeats: BookedSeat[]
