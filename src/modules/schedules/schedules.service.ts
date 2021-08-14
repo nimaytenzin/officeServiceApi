@@ -45,10 +45,16 @@ export class SchedulesService {
                 },
                 {
                     model:Route,
-                    include: [{
-                        all: true,
-                        nested: true
-                    }]
+                    include: [
+                        {
+                            model: Stop, 
+                            as: 'destination' 
+                        },
+                        {
+                            model:Stop,
+                            as:'origin'
+                        }
+                    ]
                 },
                 {
                     model:Bus
