@@ -15,7 +15,8 @@ export class BookedSeatsService {
         let bookingObject = {
             "roomId":"2",
             "messageType":"ON_BOOK",
-            "bookList":[1,2]
+            // "bookList":[1,2]
+            "seatId":"1"
         }
         return await this.amqp.publish("","ON_BOOK",bookingObject)
         // await this.amqp.createChannel().then((channel)=>{
