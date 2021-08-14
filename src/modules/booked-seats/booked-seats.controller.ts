@@ -13,9 +13,9 @@ export class BookedSeatsController {
         return await this.bookedSeatService.create(bookedSeats);
     }
 
-    @Get('/redis-test')
+    @Get('/amqp-test')
     async redistest():Promise<any>{
-        return await this.bookedSeatService.redisTest();
+        return await this.bookedSeatService.publishBooking("test");
     }
 
     @Get(':id')

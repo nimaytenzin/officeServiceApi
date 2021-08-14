@@ -16,12 +16,13 @@ import { BookedSeatsModule } from './modules/booked-seats/booked-seats.module';
 import { CalendarDatesModule } from './modules/calendar-dates/calendar-dates.module';
 import { RoutesModule } from './modules/routes/routes.module';
 import { RouteDayModule } from './modules/route-day/route-day.module';
-import { RedisModule } from './modules/redis/redis.module';
 
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ 
+      isGlobal: true 
+    }),
     DatabaseModule,
     UsersModule,
     AuthModule,
@@ -35,8 +36,7 @@ import { RedisModule } from './modules/redis/redis.module';
     BookedSeatsModule,
     CalendarDatesModule,
     RoutesModule,
-    RouteDayModule,
-    RedisModule
+    RouteDayModule
   ],
   controllers: [AppController],
   providers: [AppService],

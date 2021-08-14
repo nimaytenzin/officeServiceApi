@@ -1,25 +1,31 @@
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Inject, Injectable } from '@nestjs/common';
 import { BOOKEDSEATS_REPOSITORY } from 'src/core/constants';
-import { RedisService } from '../redis/redis.service';
 import { BookedSeat } from './booked-seats.entity';
 import { BookedSeatsDto } from './dto/bookedSeat.dto';
 
 @Injectable()
 export class BookedSeatsService {
-    constructor(@Inject(BOOKEDSEATS_REPOSITORY)private readonly bookedSeatsRepository:typeof BookedSeat, private readonly redisService: RedisService){
-    }
+    constructor(
+        @Inject(BOOKEDSEATS_REPOSITORY)private readonly bookedSeatsRepository:typeof BookedSeat, 
+    private readonly amqp:AmqpConnection
+    ){}
 
-    async redisTest(): Promise<any>{
-        var bookMsg = {
+    async publishBooking(message: string){
+        let bookingObject = {
             "roomId":"2",
             "messageType":"ON_BOOK",
-           "bookList":[1]
+            "bookList":[1,2]
         }
-        var result = await this.redisService.publish('ON_BOOK',bookMsg);
-        // TODO: validation for listeners
-        // if result is not more then 0 then we need to resend the msg coz there is no listener on the other end
-        return result;
+        return await this.amqp.publish("","ON_BOOK",bookingObject)
+        // await this.amqp.createChannel().then((channel)=>{
+        //     channel.assertQueue("ON_BOOK");
+        //     channel.sendToQueue("ON_BOOK",Buffer.from("test"))
+        // }).catch((err)=>{
+        //     console.log(err)
+        // })
     }
+
     async create(bookedSeats: BookedSeatsDto): Promise<BookedSeat>{
         return await this.bookedSeatsRepository.create<BookedSeat>(bookedSeats);
     }
