@@ -9,19 +9,23 @@ import { CalendarDatesService } from '../calendar-dates/calendar-dates.service';
 import { ScheduleDayDto } from './dto/schedule-day.dto';
 
 import { BookingsService} from '../bookings/bookings.service'
+import {RoutesService } from '../routes/routes.service'
 import { Booking } from '../bookings/booking.entity';
 import { BookedSeat } from '../booked-seats/booked-seats.entity';
 import { Route } from '../routes/route.entity';
 import { Bus } from '../buses/bus.entity';
 import { CalendarDate } from '../calendar-dates/calendar-dates.entity';
 import { Stop } from '../stops/stop.entity';
+
 import { all } from 'sequelize/types/lib/operators';
+import { NotNull } from 'sequelize-typescript';
 @Injectable()
 export class SchedulesService {
 
     constructor(@Inject(SCHEDULE_REPOSITORY)  private readonly scheduleRepository: typeof Schedule,
      private calendarDatesService: CalendarDatesService,
-     private bookingsService:BookingsService
+     private bookingsService:BookingsService,
+     private routeService: RoutesService
      ) { }
 
     async create(schedule: ScheduleDto): Promise<Schedule> {
@@ -97,6 +101,7 @@ export class SchedulesService {
         return await this.scheduleRepository.findAll<Schedule>({
             where: {
                 routeId: routeId,
+
                 dateId: {
                     [Op.eq]: date
                   }
@@ -145,11 +150,18 @@ export class SchedulesService {
 
     async findByDate(date): Promise<Schedule[]> {
         return this.scheduleRepository.findAll({
-            where: sequelize.where(
-                sequelize.fn('date', sequelize.col('dateId')),
-                "=",
-                date
-            ),
+            
+            where: {
+                date:sequelize.where(
+                    sequelize.fn('date', sequelize.col('dateId')),
+                    "=",
+                    date
+                ),
+                isFInished :0,
+                routeId:{[Op.ne]: null}
+
+            },
+            
             include: [{
                 all: true,
                 nested: true
@@ -187,7 +199,10 @@ export class SchedulesService {
 
 
     async delete(id) {
+
+
         return await this.scheduleRepository.destroy({ where: { id } });
+
     }
 
     async deleteByRouteId(id) {

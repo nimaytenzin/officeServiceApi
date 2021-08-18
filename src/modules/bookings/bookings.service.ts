@@ -12,6 +12,8 @@ export class BookingsService {
     constructor(@Inject(BOOKING_REPOSITORY) private readonly bookingRepository: typeof Booking, private bookedSeatServices:BookedSeatsService ) { }
 
     async create(bookingwithSeats: BookingWithSeatsDto): Promise<Booking> {
+
+        console.log(bookingwithSeats)
         
         var newBooking =  await this.bookingRepository.create<Booking>(bookingwithSeats.booking);
         let bookingId = newBooking.id;
@@ -45,6 +47,10 @@ export class BookingsService {
                 date
             )
         })
+    }
+
+    async findAll(): Promise<Booking[]>{
+        return this.bookingRepository.findAll<Booking>()
     }
 
 

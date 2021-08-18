@@ -16,6 +16,11 @@ export class BookingsController {
 
     }
 
+    @Get()
+    async getAll():Promise<Booking[]>{
+        return await this.bookingService.findAll();
+    }
+
     @Get('cancelled')
     async findAll():Promise<Booking[]>{
         return await this.bookingService.findAllCancelled();

@@ -16,6 +16,8 @@ import { BookedSeatsModule } from './modules/booked-seats/booked-seats.module';
 import { CalendarDatesModule } from './modules/calendar-dates/calendar-dates.module';
 import { RoutesModule } from './modules/routes/routes.module';
 import { RouteDayModule } from './modules/route-day/route-day.module';
+import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
+
 
 
 @Module({
@@ -36,7 +38,8 @@ import { RouteDayModule } from './modules/route-day/route-day.module';
     BookedSeatsModule,
     CalendarDatesModule,
     RoutesModule,
-    RouteDayModule
+    RouteDayModule,
+    FeedbacksModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -22,7 +22,7 @@ export class Schedule extends Model {
     @ForeignKey(()=>Route)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false,
+        allowNull: true,
     })
     routeId: number;
     

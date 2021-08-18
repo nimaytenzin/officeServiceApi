@@ -41,7 +41,7 @@ export class Booking extends Model {
 
 
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.BIGINT,
         allowNull: true,
     })
     accNo: number;
