@@ -17,6 +17,8 @@ import { CalendarDatesModule } from './modules/calendar-dates/calendar-dates.mod
 import { RoutesModule } from './modules/routes/routes.module';
 import { RouteDayModule } from './modules/route-day/route-day.module';
 import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
+import { BankDetailsModule } from './modules/bank-details/bank-details.module';
+
 
 
 
@@ -39,7 +41,8 @@ import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
     CalendarDatesModule,
     RoutesModule,
     RouteDayModule,
-    FeedbacksModule
+    FeedbacksModule,
+    BankDetailsModule
   ],
   controllers: [AppController],
   providers: [AppService],

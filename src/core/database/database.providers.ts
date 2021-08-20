@@ -13,7 +13,8 @@ import { BookedSeat } from 'src/modules/booked-seats/booked-seats.entity';
 import { CalendarDate } from 'src/modules/calendar-dates/calendar-dates.entity';
 import { Route } from 'src/modules/routes/route.entity';
 import { RouteDay } from 'src/modules/route-day/route-day.entity';
-import {  Feedback} from 'src/modules/feedbacks/feedback.entity'
+import {  Feedback} from 'src/modules/feedbacks/feedback.entity';
+import { BankDetail } from 'src/modules/bank-details/bank-details.entity'
 
 export const databaseProviders = [{
     provide: SEQUELIZE,
@@ -33,7 +34,7 @@ export const databaseProviders = [{
            config = databaseConfig.development;
         }
         const sequelize = new Sequelize(config);
-        sequelize.addModels([User,Schedule,Booking, Bus, BusType, Seat, Stop, Invoice,BookedSeat, CalendarDate, Route, RouteDay, Feedback]);
+        sequelize.addModels([User,Schedule,Booking, Bus, BusType, Seat, Stop, Invoice,BookedSeat, CalendarDate, Route, RouteDay, Feedback, BankDetail]);
         await sequelize.sync();
         return sequelize;
     },

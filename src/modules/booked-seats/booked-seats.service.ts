@@ -36,6 +36,10 @@ export class BookedSeatsService {
         });
     }
 
+    async getBankDetails(){
+        return {}
+    }
+
     async findAllbyScheduleAndBookingId(bookingId,ScheduleId):Promise<BookedSeat[]>{
         return await this.bookedSeatsRepository.findAll<BookedSeat>({
             where:{

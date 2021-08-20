@@ -16,6 +16,11 @@ export class BookingsController {
 
     }
 
+    @Get('checksum/:bookingId')
+    async getChecksum(@Param('bookingId') bookingId:number){
+        return await this.bookingService.generateChecksum(bookingId)
+    }
+
     @Get()
     async getAll():Promise<Booking[]>{
         return await this.bookingService.findAll();
