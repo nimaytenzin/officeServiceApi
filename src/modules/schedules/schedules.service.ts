@@ -8,8 +8,8 @@ import { Op } from 'sequelize';
 import { CalendarDatesService } from '../calendar-dates/calendar-dates.service';
 import { ScheduleDayDto } from './dto/schedule-day.dto';
 
-import { BookingsService} from '../bookings/bookings.service'
-import {RoutesService } from '../routes/routes.service'
+import { BookingsService } from '../bookings/bookings.service'
+import { RoutesService } from '../routes/routes.service'
 import { Booking } from '../bookings/booking.entity';
 import { BookedSeat } from '../booked-seats/booked-seats.entity';
 import { Route } from '../routes/route.entity';
@@ -22,52 +22,53 @@ import { NotNull } from 'sequelize-typescript';
 @Injectable()
 export class SchedulesService {
 
-    constructor(@Inject(SCHEDULE_REPOSITORY)  private readonly scheduleRepository: typeof Schedule,
-     private calendarDatesService: CalendarDatesService,
-     private bookingsService:BookingsService,
-     private routeService: RoutesService
-     ) { }
+    constructor(@Inject(SCHEDULE_REPOSITORY) private readonly scheduleRepository: typeof Schedule,
+        private calendarDatesService: CalendarDatesService,
+        private bookingsService: BookingsService,
+        private routeService: RoutesService
+    ) { }
 
     async create(schedule: ScheduleDto): Promise<Schedule> {
         return await this.scheduleRepository.create<Schedule>(schedule);
     }
 
     async findOneById(id: number): Promise<Schedule> {
-        return await this.scheduleRepository.findOne<Schedule>({ 
+        return await this.scheduleRepository.findOne<Schedule>({
             where: { id },
             include: [
                 {
-                    model:Booking,
-                    include:[
+                    model: Booking,
+                    include: [
                         {
-                            model:BookedSeat,
-                            where:{
-                                scheduleId:id
+                            model: BookedSeat,
+                            where: {
+                                scheduleId: id
                             }
                         }
                     ]
                 },
                 {
-                    model:Route,
+                    model: Route,
                     include: [
                         {
-                            model: Stop, 
-                            as: 'destination' 
+                            model: Stop,
+                            as: 'destination'
                         },
                         {
-                            model:Stop,
-                            as:'origin'
+                            model: Stop,
+                            as: 'origin'
                         }
                     ]
                 },
                 {
-                    model:Bus
+                    model: Bus
                 },
                 {
-                    model:CalendarDate
+                    model: CalendarDate
                 }
             ]
-    })}
+        })
+    }
 
     async createScheduleOnDayBetweenDate(scheduleObject: ScheduleDayDto): Promise<Schedule[]> {
         var dayStrings = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -104,7 +105,7 @@ export class SchedulesService {
 
                 dateId: {
                     [Op.eq]: date
-                  }
+                }
             }
         });
     }
@@ -135,10 +136,10 @@ export class SchedulesService {
     }
 
 
-    async getNextSevenDaySchedule():Promise<Schedule[]>{
+    async getNextSevenDaySchedule(): Promise<Schedule[]> {
         var from = new Date().getTime()
         var to = new Date().setDate(new Date().getDate() + 7)
-        
+
         return this.scheduleRepository.findAll({
             where: {
                 dateId: {
@@ -150,22 +151,51 @@ export class SchedulesService {
 
     async findByDate(date): Promise<Schedule[]> {
         return this.scheduleRepository.findAll({
-            
+
             where: {
-                date:sequelize.where(
+                date: sequelize.where(
                     sequelize.fn('date', sequelize.col('dateId')),
                     "=",
                     date
                 ),
-                isFInished :0,
-                routeId:{[Op.ne]: null}
+                isFInished: 0,
+                routeId: { [Op.ne]: null }
+
+            }
+        } ,
+        );
+    }
+
+
+    async getDetailByDate(date): Promise<Schedule[]> {
+        return this.scheduleRepository.findAll({
+
+            where: {
+                date: sequelize.where(
+                    sequelize.fn('date', sequelize.col('dateId')),
+                    "=",
+                    date
+                ),
+                isFInished: 0,
+                routeId: { [Op.ne]: null }
 
             },
-            
-            include: [{
-                all: true,
-                nested: true
-            }]
+
+            include: [
+                {
+                    model: Route,
+                    include: [
+                        {
+                            model: Stop,
+                            as: 'origin'
+                        },
+                        {
+                            model: Stop,
+                            as: 'destination'
+                        }
+                    ]
+                }
+            ]
         } ,
         );
     }
@@ -185,7 +215,7 @@ export class SchedulesService {
         return { numRows, num }
     }
 
-    async cancelSchedule(id,data){
+    async cancelSchedule(id, data) {
         const [numRows, num] = await this.scheduleRepository.update(
             { ...data },
             {

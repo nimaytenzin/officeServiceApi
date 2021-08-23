@@ -31,12 +31,17 @@ export class SchedulesController {
         return await this.scheduleService.findByDate(params.date)
     }
 
+    @Get("details/:date")
+    async getDetails(@Param() params){
+        return await this.scheduleService.getDetailByDate(params.date)
+    }
+
     @Get("busdetails/:bookingId")
     async getScheduleBy(@Param() params){
         return await this.scheduleService.findBusByBookingId(params.bookingId)
     }
 
-    @Get(":routeId/:date")
+    @Get("routeDate/:routeId/:date")
     async findByRouteDate(@Param() params){
         return await this.scheduleService.findByRouteDate(params.routeId,params.date)
     }
