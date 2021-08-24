@@ -12,28 +12,34 @@ import * as moment from 'moment';
 import * as fs from 'fs'
 import * as path from 'path'
 import { Schedule } from '../schedules/schedule.entity';
+import { BookedSeat } from '../booked-seats/booked-seats.entity';
+import { Model } from 'sequelize';
+import { Route } from '../routes/route.entity';
+import { all } from 'sequelize/types/lib/operators';
+import { Stop } from '../stops/stop.entity';
+import { CalendarDate } from '../calendar-dates/calendar-dates.entity';
 @Injectable()
 export class BookingsService {
-    constructor(@Inject(BOOKING_REPOSITORY) private readonly bookingRepository: typeof Booking, private bookedSeatServices: BookedSeatsService, 
-    private bankDetailsService: BankDetailsService) { }
+    constructor(@Inject(BOOKING_REPOSITORY) private readonly bookingRepository: typeof Booking, private bookedSeatServices: BookedSeatsService,
+        private bankDetailsService: BankDetailsService) { }
 
     async create(bookingwithSeats: BookingWithSeatsDto): Promise<Booking> {
 
-        var newBooking = await this.bookingRepository.create<Booking>(bookingwithSeats.booking,{
+        var newBooking = await this.bookingRepository.create<Booking>(bookingwithSeats.booking, {
             include: [{
                 model: Schedule
-              }]
+            }]
         });
         let bookingId = newBooking.id;
 
-   
-        for(let i =0; i<bookingwithSeats.seats.length;i++){
+
+        for (let i = 0; i < bookingwithSeats.seats.length; i++) {
             let newSeat: BookedSeatsDto = {
                 bookingId: bookingId,
                 scheduleId: bookingwithSeats.booking.scheduleId,
                 seatNumber: bookingwithSeats.seats[i]
             }
-              await this.bookedSeatServices.create(newSeat)
+            await this.bookedSeatServices.create(newSeat)
         }
 
         var bookedSeats = await this.bookedSeatServices.findAllByBookingId(bookingId)
@@ -44,7 +50,7 @@ export class BookingsService {
 
 
         console.log("BOOKING", newBooking)
-        
+
         //var for checksum
         var departureDate = moment(newBooking.bookingTime).format('LL')
         var departureTime = "07:00:AM"
@@ -96,12 +102,34 @@ export class BookingsService {
         return await this.bookingRepository.findOne<Booking>({
             where: { id },
             include: [{
-                all: true,
-                nested: true
-            }]
+                model: Schedule,
+                include: [
+                    {
+                        model: Route,
+                        include: [
+                            {
+                                model: Stop,
+                                as: 'destination'
+                            },
+                            {
+                                model: Stop,
+                                as: 'origin'
+                            }
+                        ]
+                    },
+                    {
+                        model:CalendarDate
+                    }
+                ]
+
+            }, {
+                model: BookedSeat
+            },
+        
+        ]
         });
     }
-  
+
 
     async findOneByDate(date: string): Promise<Booking[]> {
         return await this.bookingRepository.findAll<Booking>({
@@ -112,7 +140,7 @@ export class BookingsService {
             )
         })
     }
-    
+
 
     async findAll(): Promise<Booking[]> {
         return this.bookingRepository.findAll<Booking>()
