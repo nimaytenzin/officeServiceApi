@@ -61,7 +61,7 @@ export class BookingsService {
         console.log(checksumText, "QR DATA")
         var secretText = "geospatialBhutan";
         var cipher = crypto.createCipheriv('rc4', secretText, '');
-        var ciphertext = cipher.update(checksumText, 'utf8', 'base64');
+        var ciphertext = cipher.update(checksumText, 'utf8', 'hex');
         console.log("Ciphertext:\t", ciphertext);
 
         await this.update(newBooking.id, {
