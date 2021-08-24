@@ -54,8 +54,6 @@ export class BookingsService {
 
 
 
-
-
         var checksumText = `${departureDate}|${departureTime}|${origin}|${destination}|${newBooking.customerName}|${newBooking.customerContact}|${seatString}`
         // var checksumText = `Thimphu|Chukha|August 20, 2021|07:00:AM|Nima Yoezer|17263764|1,2,5,6`
         console.log(checksumText, "QR DATA")
@@ -103,6 +101,7 @@ export class BookingsService {
             }]
         });
     }
+  
 
     async findOneByDate(date: string): Promise<Booking[]> {
         return await this.bookingRepository.findAll<Booking>({
@@ -113,6 +112,7 @@ export class BookingsService {
             )
         })
     }
+    
 
     async findAll(): Promise<Booking[]> {
         return this.bookingRepository.findAll<Booking>()

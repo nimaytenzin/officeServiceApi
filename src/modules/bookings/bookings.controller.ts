@@ -31,6 +31,7 @@ export class BookingsController {
         return await this.bookingService.findAllCancelled();
     }
 
+
     @Get(':id')
     async findOne(@Param('id')id: number):Promise<Booking>{
         return await this.bookingService.findOneById(id);

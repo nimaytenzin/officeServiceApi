@@ -69,6 +69,13 @@ export class SchedulesService {
             ]
         })
     }
+    
+
+    async getStatus(id:number){
+        let ok =  await this.findOneById(id)
+        return {status: ok.isFinished}
+     }
+
 
     async createScheduleOnDayBetweenDate(scheduleObject: ScheduleDayDto): Promise<Schedule[]> {
         var dayStrings = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];

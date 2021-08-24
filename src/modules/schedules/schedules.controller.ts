@@ -19,6 +19,12 @@ export class SchedulesController {
     }
 
 
+    @Get('status/:id')
+    async getStatus(@Param('id')id: number){
+        return await this.scheduleService.getStatus(id);
+    }
+
+
     @Get("between/:from/:to")
     async findAllBetweenDates(@Param() params){
         var fromDateTime = new Date(Number(params.from)); 
