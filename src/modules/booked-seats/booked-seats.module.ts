@@ -8,9 +8,9 @@ import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
   exports: [BookedSeatsService],
   controllers: [BookedSeatsController],
   imports:[
-    RabbitMQModule.forRoot(RabbitMQModule,{
-      uri: "amqp://guest:guest@localhost:5672"
-    })
+    // RabbitMQModule.forRoot(RabbitMQModule,{
+    //   uri: "amqp://guest:guest@localhost:5672"
+    // })
 ]
 })
 export class BookedSeatsModule {}
