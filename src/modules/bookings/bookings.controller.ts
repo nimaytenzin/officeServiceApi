@@ -28,14 +28,16 @@ export class BookingsController {
 
             if( numRows > 0 ){
                 const booking = await this.bookingService.findOneById(Number(confirmObject.bfs_orderNo));
-                const bookedSeats = booking.bookedSeats;
-                for (var i = 0; i < bookedSeats.length; i++){
-                    console.log(bookedSeats[i].seatNumber)
-                    await this.bookingService.publishBooking(booking.scheduleId.toString(),bookedSeats[i].seatNumber.toString())
+                if(booking !== null){
+                    const bookedSeats = booking.bookedSeats;
+                    for (var i = 0; i < bookedSeats.length; i++){
+                        console.log(bookedSeats[i].seatNumber)
+                        await this.bookingService.publishBooking(booking.scheduleId.toString(),bookedSeats[i].seatNumber.toString())
+                    }
+                    // await this.bookingService.publishBooking(booking.scheduleId,)
+                    // return res.status(200).send("OK")
+                    return res.status(200).redirect(`http://localhost:8080/book/eticket/${confirmObject.bfs_orderNo}`)
                 }
-                // await this.bookingService.publishBooking(booking.scheduleId,)
-                // return res.status(200).send("OK")
-                return res.status(200).redirect("http://localhost:8080/book")
             }
         }
         //TODO: handle unsuccessful payment here
