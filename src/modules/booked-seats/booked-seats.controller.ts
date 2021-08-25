@@ -13,10 +13,10 @@ export class BookedSeatsController {
         return await this.bookedSeatService.create(bookedSeats);
     }
 
-    @Get('/amqp-test')
-    async redistest():Promise<any>{
-        return await this.bookedSeatService.publishBooking("test");
-    }
+    // @Get('/amqp-test')
+    // async redistest():Promise<any>{
+    //     return await this.bookedSeatService.publishBooking("test");
+    // }
 
     @Get(':id')
     async findOneById(@Param('id') id: number): Promise<BookedSeat> {
