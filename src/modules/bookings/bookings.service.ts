@@ -60,16 +60,19 @@ export class BookingsService {
 
 
 
-        var checksumText = `${departureDate}|${departureTime}|${origin}|${destination}|${newBooking.customerName}|${newBooking.customerContact}|${seatString}`
-        // var checksumText = `Thimphu|Chukha|August 20, 2021|07:00:AM|Nima Yoezer|17263764|1,2,5,6`
-        console.log(checksumText, "QR DATA")
-        var secretText = "geospatialBhutan";
-        var cipher = crypto.createCipheriv('rc4', secretText, '');
-        var ciphertext = cipher.update(checksumText, 'utf8', 'hex');
-        console.log("Ciphertext:\t", ciphertext);
+        var checksumText = `${seatString}|${departureDate}|${departureTime}|${origin}|${destination}|Hem|162744982`
+
+        var ok = Buffer.from(checksumText).toString('base64')
+        // console.log("base 64", ok)
+        // // var checksumText = `Thimphu|Chukha|August 20, 2021|07:00:AM|Nima Yoezer|17263764|1,2,5,6`
+        // console.log(checksumText, "QR DATA")
+        // var secretText = "geospatialBhutan";
+        // var cipher = crypto.createCipheriv('rc4', secretText, '');
+        // var ciphertext = cipher.update(checksumText, 'utf8', 'base64');
+        // console.log("Ciphertext:\t", ciphertext);
 
         await this.update(newBooking.id, {
-            checkSum: ciphertext
+            checkSum: ok
         })
         return newBooking
     }
