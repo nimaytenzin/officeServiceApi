@@ -54,6 +54,11 @@ export class BookingsController {
         return await this.bookingService.findAll();
     }
 
+    @Get('scheduleId/:id')
+    async GetCheckout(@Param('id') id):Promise<Booking[]>{
+        return await this.bookingService.findAllCheckoutBySchedule(id);
+    }
+
     @Get('cancelled')
     async findAll():Promise<Booking[]>{
         return await this.bookingService.findAllCancelled();

@@ -35,20 +35,8 @@ export class SchedulesService {
     async findOneById(id: number): Promise<Schedule> {
         return await this.scheduleRepository.findOne<Schedule>({
             where: { id },
-            include: [
-                {
-                    model: Booking,
-                    include: [
-                        {
-                            model: BookedSeat,
-                            where: {
-                                scheduleId: id
-                            }
-                        }
-                    ]
-                },
-                {
-                    model: Route,
+            include: [ 'calendarDate',{
+                model: Route,
                     include: [
                         {
                             model: Stop,
@@ -59,20 +47,52 @@ export class SchedulesService {
                             as: 'origin'
                         }
                     ]
-                },
-                {
-                    model: Bus
-                },
-                {
-                    model: CalendarDate
-                }
-            ]
+            }]
+         
+            // include: [
+            //     {
+            //         model: Booking,
+            //         where:{
+            //             checkInStatus:"CHECKOUT"
+            //         },
+            //         include: [
+            //             {
+            //                 model: BookedSeat,
+            //                 where: {
+            //                     scheduleId: id
+            //                 }
+            //             }
+            //         ]
+            //     },
+            //     {
+            //         model: Route,
+            //         include: [
+            //             {
+            //                 model: Stop,
+            //                 as: 'destination'
+            //             },
+            //             {
+            //                 model: Stop,
+            //                 as: 'origin'
+            //             }
+            //         ]
+            //     },
+            //     {
+            //         model: Bus
+            //     },
+            //     {
+            //         model: CalendarDate
+            //     }
+            // ]
         })
     }
 
     async getMiniDetailsById(id: number): Promise<Schedule> {
         return await this.scheduleRepository.findOne<Schedule>({
-            where: { id },
+            where: { 
+                id:id,
+                isFInished: 0,
+             },
             include: [
                 {
                     model: Route,

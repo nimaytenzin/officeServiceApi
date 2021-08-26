@@ -187,6 +187,18 @@ export class BookingsService {
         return this.bookingRepository.findAll<Booking>()
     }
 
+    async findAllCheckoutBySchedule(scheduleId: number): Promise<Booking[]> {
+        return this.bookingRepository.findAll<Booking>({
+            where:{
+                scheduleId:scheduleId,
+                checkInStatus:"CHECKOUT"
+            },
+            include:[{
+                model:BookedSeat
+            }]
+        })
+    }
+
 
     async findAllCancelled(): Promise<Booking[]> {
         return this.bookingRepository.findAll<Booking>({
@@ -194,9 +206,31 @@ export class BookingsService {
                 checkInStatus: 'CANCELLED'
             },
             include: [{
-                all: true,
-                nested: true
-            }]
+                model: Schedule,
+                include: [
+                    {
+                        model: Route,
+                        include: [
+                            {
+                                model: Stop,
+                                as: 'destination'
+                            },
+                            {
+                                model: Stop,
+                                as: 'origin'
+                            }
+                        ]
+                    },
+                    {
+                        model:CalendarDate
+                    }
+                ]
+
+            }, {
+                model: BookedSeat
+            },
+        
+        ]
         });
     }
     async updateOnlyBooking(id,data){
@@ -247,7 +281,6 @@ export class BookingsService {
                 returning: true
             }
         );
-        await this.bookedSeatServices.deleteAllByBookingId(id)
         return { numRows, num }
     }
 
