@@ -18,10 +18,23 @@ import { Route } from '../routes/route.entity';
 import { all } from 'sequelize/types/lib/operators';
 import { Stop } from '../stops/stop.entity';
 import { CalendarDate } from '../calendar-dates/calendar-dates.entity';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 @Injectable()
 export class BookingsService {
-    constructor(@Inject(BOOKING_REPOSITORY) private readonly bookingRepository: typeof Booking, private bookedSeatServices: BookedSeatsService,
-        private bankDetailsService: BankDetailsService) { }
+    constructor(@Inject(BOOKING_REPOSITORY) private readonly bookingRepository: typeof Booking, private bookedSeatServices: BookedSeatsService, 
+    private bankDetailsService: BankDetailsService,
+    private readonly amqp:AmqpConnection
+    ) { }
+
+    async publishBooking(scheduleId:string,seatId:string){
+        let bookObject = {
+            "roomId":scheduleId,
+            "messageType":"ON_BOOK",
+            "seatId":seatId
+        }
+        return await this.amqp.publish("meto","",bookObject);
+
+    }
 
     async create(bookingwithSeats: BookingWithSeatsDto): Promise<Booking> {
 
@@ -185,6 +198,15 @@ export class BookingsService {
                 nested: true
             }]
         });
+    }
+    async updateOnlyBooking(id,data){
+        const [numRows, num] = await this.bookingRepository.update(
+            { ...data },
+            {
+                where: { id }
+            }
+        );
+        return { numRows, num }
     }
 
     async update(id, data) {

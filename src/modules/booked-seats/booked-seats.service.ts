@@ -1,4 +1,3 @@
-import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Inject, Injectable } from '@nestjs/common';
 import { BOOKEDSEATS_REPOSITORY } from 'src/core/constants';
 import { BookedSeat } from './booked-seats.entity';
@@ -8,24 +7,24 @@ import { BookedSeatsDto } from './dto/bookedSeat.dto';
 export class BookedSeatsService {
     constructor(
         @Inject(BOOKEDSEATS_REPOSITORY)private readonly bookedSeatsRepository:typeof BookedSeat, 
-    private readonly amqp:AmqpConnection
+    // private readonly amqp:AmqpConnection
     ){}
 
-    async publishBooking(message: string){
-        let bookingObject = {
-            "roomId":"2",
-            "messageType":"ON_BOOK",
-            // "bookList":[1,2]
-            "seatId":"1"
-        }
-        return await this.amqp.publish("","ON_BOOK",bookingObject)
-        // await this.amqp.createChannel().then((channel)=>{
-        //     channel.assertQueue("ON_BOOK");
-        //     channel.sendToQueue("ON_BOOK",Buffer.from("test"))
-        // }).catch((err)=>{
-        //     console.log(err)
-        // })
-    }
+    // async publishBooking(message: string){
+    //     let bookingObject = {
+    //         "roomId":"2",
+    //         "messageType":"ON_BOOK",
+    //         // "bookList":[1,2]
+    //         "seatId":"1"
+    //     }
+    //     return await this.amqp.publish("","ON_BOOK",bookingObject)
+    //     // await this.amqp.createChannel().then((channel)=>{
+    //     //     channel.assertQueue("ON_BOOK");
+    //     //     channel.sendToQueue("ON_BOOK",Buffer.from("test"))
+    //     // }).catch((err)=>{
+    //     //     console.log(err)
+    //     // })
+    // }
 
     async create(bookedSeats: BookedSeatsDto): Promise<BookedSeat>{
         return await this.bookedSeatsRepository.create<BookedSeat>(bookedSeats);
