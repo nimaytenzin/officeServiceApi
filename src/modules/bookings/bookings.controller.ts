@@ -35,8 +35,8 @@ export class BookingsController {
                         await this.bookingService.publishBooking(booking.scheduleId.toString(),bookedSeats[i].seatNumber.toString())
                     }
                     // await this.bookingService.publishBooking(booking.scheduleId,)
-                    // return res.status(200).send("OK")
-                    return res.status(200).redirect(`http://localhost:8080/book/eticket/${confirmObject.bfs_orderNo}`)
+                    return res.status(200).send("OK")
+                    // return res.status(200).redirect(`http://localhost:8080/book/eticket/${confirmObject.bfs_orderNo}`)
                 }
             }
         }
