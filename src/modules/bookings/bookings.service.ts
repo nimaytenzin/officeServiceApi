@@ -51,16 +51,41 @@ export class BookingsService {
 
         console.log("BOOKING", newBooking)
 
+        let booking = await this.findOneById(bookingId)
+        console.log("BOOKING", booking)
+
+
         //var for checksum
-        var departureDate = moment(newBooking.bookingTime).format('LL')
-        var departureTime = "07:00:AM"
-        var origin = "Thimphu"
-        var destination = "Gasa"
+        
+        var departureTime = getdepTime(booking.schedule.route.departureTime)
+        var origin = booking.schedule.route.origin.name
+        var destination = booking.schedule.route.destination.name
         var seatString = seats.join(',');
 
+        var departureDate = `${booking.schedule.calendarDate.Day_Name} ${booking.schedule.calendarDate.Calendar_Day} ${booking.schedule.calendarDate.Month_Name} ${booking.schedule.calendarDate.Calendar_Year}`
 
 
-        var checksumText = `${seatString}|${departureDate}|${departureTime}|${origin}|${destination}|Hem|162744982`
+
+        function getdepTime (time) {
+            let tissme = time.split(":");
+            let hrs = parseInt(tissme[0]);
+            let min = parseInt(tissme[1]).toLocaleString("en-US", {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            });
+            let ampm = "am";
+            if (hrs > 12) {
+              hrs = hrs - 12;
+              ampm = "pm";
+            }
+      
+            return `${hrs}:${min} ${ampm}`;
+          }
+
+
+
+
+        var checksumText = `${seatString}|${departureDate}|${departureTime}|${origin}|${destination}|${newBooking.customerName}|${newBooking.customerContact}`
 
         var ok = Buffer.from(checksumText).toString('base64')
         // console.log("base 64", ok)

@@ -69,6 +69,17 @@ export class SchedulesService {
             ]
         })
     }
+
+    async getMiniDetailsById(id: number): Promise<Schedule> {
+        return await this.scheduleRepository.findOne<Schedule>({
+            where: { id },
+            include: [
+                {
+                    model: Route,
+                }
+            ]
+        })
+    }
     
 
     async getStatus(id:number){

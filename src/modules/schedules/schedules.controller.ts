@@ -24,6 +24,11 @@ export class SchedulesController {
         return await this.scheduleService.getStatus(id);
     }
 
+    @Get('mini/:id')
+    async getMini(@Param('id')id: number){
+        return await this.scheduleService.getMiniDetailsById(id);
+    }
+
 
     @Get("between/:from/:to")
     async findAllBetweenDates(@Param() params){
