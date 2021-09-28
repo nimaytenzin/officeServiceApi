@@ -5,20 +5,9 @@ import { DatabaseModule } from './core/database/database.module';
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { SchedulesModule } from './modules/schedules/schedules.module';
-import { BookingsModule } from './modules/bookings/bookings.module';
-import { BusesModule } from './modules/buses/buses.module';
-import { BusTypesModule } from './modules/bus-types/bus-types.module';
-import { SeatsModule } from './modules/seats/seats.module';
-import { StopsModule } from './modules/stops/stops.module';
-import { InvoicesModule } from './modules/invoices/invoices.module';
-import { BookedSeatsModule } from './modules/booked-seats/booked-seats.module';
-import { CalendarDatesModule } from './modules/calendar-dates/calendar-dates.module';
-import { RoutesModule } from './modules/routes/routes.module';
-import { RouteDayModule } from './modules/route-day/route-day.module';
-import { FeedbacksModule } from './modules/feedbacks/feedbacks.module';
-import { BankDetailsModule } from './modules/bank-details/bank-details.module';
-
+import { DepartmentsModule } from './modules/departments/departments.module'
+import { DivisionsModule } from './modules/divisions/divisions.module'
+import { SectionsModule } from './modules/sections/sections.module';
 
 
 
@@ -30,19 +19,9 @@ import { BankDetailsModule } from './modules/bank-details/bank-details.module';
     DatabaseModule,
     UsersModule,
     AuthModule,
-    SchedulesModule,
-    BookingsModule,
-    BusesModule,
-    BusTypesModule,
-    SeatsModule,
-    StopsModule,
-    InvoicesModule,
-    BookedSeatsModule,
-    CalendarDatesModule,
-    RoutesModule,
-    RouteDayModule,
-    FeedbacksModule,
-    BankDetailsModule
+    DepartmentsModule,
+    DivisionsModule,
+    SectionsModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -3,6 +3,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Welcome to the BBS system API';
+    return 'Microservice for Mangement of Office and HR Details. Powered by NestJS';
   }
 }
