@@ -4,7 +4,7 @@ import { Division } from '../divisions/division.entity';
 import { Section } from '../sections/section.entity';
 
 @Table
-export class User extends Model {
+export class Staff extends Model {
     @Column({
         type: DataType.STRING,
         allowNull: false,
@@ -79,7 +79,7 @@ export class User extends Model {
         unique: true,
         allowNull: false,
     })
-    role: number;
+    role_id: number;
 
     @Column({
         type: DataType.STRING,
@@ -90,7 +90,7 @@ export class User extends Model {
 
     @ForeignKey(() => Department)
     @Column
-    departmentId: number
+    department_id: number
   
     @BelongsTo(() => Department)
     department: Department
@@ -98,7 +98,7 @@ export class User extends Model {
 
     @ForeignKey(() => Division)
     @Column
-    divisionId: number
+    division_id: number
   
     @BelongsTo(() => Division)
     division: Division
@@ -106,7 +106,7 @@ export class User extends Model {
 
     @ForeignKey(() => Section)
     @Column
-    sectionId: number
+    section_id: number
   
     @BelongsTo(() => Section)
     section: Section
