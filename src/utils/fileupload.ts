@@ -10,7 +10,6 @@ export class Helper {
       const originalName = file.originalname.split('.')[0];
       cb(null, originalName + '-' + uniqueSuffix + '.' + fileExtension);
     }
-  
     static destinationPath(req, file, cb) {
       cb(null, './upload/');
     }
