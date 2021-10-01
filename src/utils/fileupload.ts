@@ -1,5 +1,9 @@
+import { StaffService } from '../modules/staff/staff.service';
+
 export class Helper {
+      
     static customFileName(req, file, cb) {
+      
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
       let fileExtension = '';
       if (file.mimetype.indexOf('jpeg') > -1) {
@@ -10,7 +14,10 @@ export class Helper {
       const originalName = file.originalname.split('.')[0];
       cb(null, originalName + '-' + uniqueSuffix + '.' + fileExtension);
     }
-    static destinationPath(req, file, cb) {
-      cb(null, './upload/');
+    static signatureFolder(req, file, cb) {
+      cb(null, './upload/signatures');
+    }
+    static profileFolder(req, file, cb) {
+      cb(null, './upload/profiles');
     }
   }

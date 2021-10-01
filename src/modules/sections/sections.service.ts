@@ -29,6 +29,12 @@ export class SectionsService {
         });
     }
 
+    async findByDivisionId(id: number): Promise<Section[]>{
+        return this.sectionsRepository.findAll<Section>({
+            where: {divisionId: id}
+        });
+    }
+
     async update(id,data){
         const [numRows,num] = await this.sectionsRepository.update(
             {...data},

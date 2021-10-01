@@ -1,6 +1,7 @@
 import { Table, Column, Model, DataType, HasMany, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Department } from '../departments/department.entity';
 import { Section } from '../sections/section.entity';
+import { Staff } from '../staff/staff.entity';
 
 @Table
 export class Division extends Model {
@@ -34,5 +35,8 @@ export class Division extends Model {
 
     @HasMany(() => Section)
      sections: Section[];
+
+     @HasMany(() => Staff)
+     staffs: Staff[];
 
 }

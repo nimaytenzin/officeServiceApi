@@ -1,5 +1,6 @@
 import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
 import { Division } from '../divisions/division.entity';
+import { Staff } from '../staff/staff.entity';
 
 @Table
 export class Department extends Model {
@@ -26,5 +27,6 @@ export class Department extends Model {
 
     @HasMany(() => Division)
      divisions: Division[];
+
 
 }

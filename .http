@@ -2,20 +2,80 @@
 # content-type: application/json
 
 # {
-#     "name": "CDRD",
+#     "name": "Survey and GIS Division",
 #     "description": "ok",
 #     "vision":"ok",
 #     "mission":"ok",
 #     "departmentId":1
 # }
 
-POST http://localhost:3000/sections HTTP/1.1
+# POST http://localhost:3000/sections HTTP/1.1
+# content-type: application/json
+
+# {
+#     "name": "ok Section",
+#     "description": "ok",
+#     "vision":"ok",
+#     "mission":"ok",
+#     "divisionId":5
+# }
+
+
+# POST http://localhost:3000/departments HTTP/1.1
+# content-type: application/json
+
+# {
+#     "name": "Department of Human Settlements",
+#     "description": "DHS MOWHS",
+#     "vision":"An integrated and sustainable living environment that enables continued enhancement of our values and provides opportunities for positive socio-economic development.",
+#     "mission":"Promote safe, secure, responsible and responsive human settlements through preparation of planning strategies and physical development plans that are consistent with the national development polices.",
+#     "divisionId":1
+# }
+
+
+# POST http://localhost:3000/sections HTTP/1.1
+# content-type: application/json
+
+# {
+#     "name": "GIS Section",
+#     "description": "Survey Section",
+#     "vision":"_",
+#     "mission":"_",
+#     "divisionId":3
+# }
+
+
+POST http://localhost:3000/staff HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Survey GIS",
-    "description": "ok",
-    "vision":"ok",
-    "mission":"ok",
-    "divisionId":1
+    "name": "Tshering Dorji",
+    "email": "Tdorji@gmail.com",
+    "contact":"17267364",
+    "extension_number":"142",
+    "cid":"1030204402",
+    "employment_id":"20204450",
+    "positionId":1,
+    "designationId":1,
+    "departmentId":1,
+    "divisionId":1,
+    "sectionId":null
 }
+
+
+# POST http://localhost:3000/designations HTTP/1.1
+# content-type: application/json
+
+# {
+#     "name": "Driver"
+# }
+
+# POST http://localhost:3000/positions HTTP/1.1
+# content-type: application/json
+
+# {
+#     "name": "O4",
+#     "hierarchical_level":21,
+#     "position_category":"Operational Category"
+# }
+

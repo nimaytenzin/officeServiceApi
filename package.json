@@ -1,5 +1,5 @@
 {
-  "name": "meto-api",
+  "name": "dhs-office-service-api",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -28,6 +28,7 @@
     "@nestjs/jwt": "^8.0.0",
     "@nestjs/passport": "^8.0.0",
     "@nestjs/platform-express": "^8.0.7",
+    "@nestjs/serve-static": "^2.2.2",
     "@nestjs/swagger": "^5.0.4",
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",

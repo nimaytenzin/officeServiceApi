@@ -14,6 +14,11 @@ export class SectionsController {
         return await this.sectionsService.findAll();
     }
 
+    @Get('division/:id')
+    async findByDivisionId(@Param('id') id:number){
+        return await this.sectionsService.findByDivisionId(id);
+    }
+
     @Get(':id')
     async findOneById(@Param('id') id:number){
         return await this.sectionsService.findOneById(id);

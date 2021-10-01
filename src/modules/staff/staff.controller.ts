@@ -1,4 +1,4 @@
-import { Controller, Body, Post, UseInterceptors, NotFoundException, Param, Delete, Get, UploadedFiles, UploadedFile } from '@nestjs/common';
+import { Controller, Body, Post, UseInterceptors, NotFoundException, Param, Delete, Get, UploadedFiles, UploadedFile, Put } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Helper } from 'src/utils/fileupload';
@@ -7,23 +7,51 @@ import { StaffService } from './staff.service';
 
 @Controller('staff')
 export class StaffController {
-  constructor(private staffService: StaffService ) {}
+  constructor(private staffService: StaffService) { }
 
   @Post()
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: Helper.destinationPath,
-        filename: Helper.customFileName,
-      }),
-    }),
-  )
-  async uploadedFile(@UploadedFile() file) {
+  async create(@Body() staff: StaffDto) {
+    console.log(staff)
+    return await this.staffService.create(staff);
+  }
 
-    console.log(file);
-    // staff.profile_uri = file.path;
-    // staff.signature_uri = file.path;
-    // return await this.staffService.create(staff);
+  @Put(':id')
+  async update(@Param('id') id: number, @Body() staff: StaffDto) {
+    const { numRows, num } = await this.staffService.update(id, staff);
+    if (numRows === 0) {
+      throw new NotFoundException('This User doesn\'t exist');
+    }
+    return 'Updated sccuessfully';
+  }
+
+  @Put(':id/uploadProfile')
+  @UseInterceptors( FileInterceptor('file', {
+    storage: diskStorage({
+      destination: Helper.profileFolder,
+      filename: Helper.customFileName,
+    }),
+  }),)
+  async updateProfile(@UploadedFile() file, @Param('id') id:number) {
+    console.log(id, file);
+    let data ={
+      profile_uri: "profiles/"+file.filename
+    }
+    return await this.staffService.update(id,data);
+  }
+
+  @Put(':id/uploadSignature')
+  @UseInterceptors( FileInterceptor('file', {
+    storage: diskStorage({
+      destination: Helper.signatureFolder,
+      filename: Helper.customFileName,
+    }),
+  }),)
+  async updateSignature(@UploadedFile() file, @Param('id') id:number) {
+    console.log(id, file);
+    let data ={
+      signature_uri: "signatures/"+file.filename
+    }
+    return await this.staffService.update(id,data);
   }
 
   @Get(':id')

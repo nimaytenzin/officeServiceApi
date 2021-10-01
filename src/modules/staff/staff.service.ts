@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Staff } from './staff.entity';
-import { STAFF_REPOSITORY,  } from '../../core/constants';
+import { STAFF_REPOSITORY, } from '../../core/constants';
 import { Department } from '../departments/department.entity';
 import { Division } from '../divisions/division.entity';
 import { Section } from '../sections/section.entity';
@@ -10,7 +10,7 @@ import { StaffDto } from './dto/staff.dto';
 export class StaffService {
   constructor(
     @Inject(STAFF_REPOSITORY) private readonly staffRepository: typeof Staff,
-  ) {}
+  ) { }
 
   async create(user: StaffDto): Promise<Staff> {
     return await this.staffRepository.create<Staff>(user);
@@ -21,6 +21,12 @@ export class StaffService {
       include: [Department, Division, Section],
     });
   }
+
+  async getProfileName():Promise<string>{
+
+    return "hello"
+  }
+
 
   async findOneByEmail(email: string): Promise<Staff> {
     return await this.staffRepository.findOne<Staff>({ where: { email } });
@@ -40,6 +46,7 @@ export class StaffService {
     );
     return { numRows, num };
   }
+
 
   async delete(id) {
     return await this.staffRepository.destroy({
