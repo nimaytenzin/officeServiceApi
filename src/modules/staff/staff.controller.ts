@@ -3,6 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Helper } from 'src/utils/fileupload';
 import { StaffDto } from './dto/staff.dto';
+import { Staff } from './staff.entity';
 import { StaffService } from './staff.service';
 
 @Controller('staff')
@@ -13,6 +14,11 @@ export class StaffController {
   async create(@Body() staff: StaffDto) {
     console.log(staff)
     return await this.staffService.create(staff);
+  }
+
+  @Get()
+  async findAll():Promise<Staff[]>{
+      return await this.staffService.findAll();
   }
 
   @Put(':id')

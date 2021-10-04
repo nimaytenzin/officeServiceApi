@@ -18,7 +18,7 @@ export class StaffService {
 
   async findAll(): Promise<Staff[]> {
     return this.staffRepository.findAll<Staff>({
-      include: [Department, Division, Section],
+     order:["positionId"]
     });
   }
 
