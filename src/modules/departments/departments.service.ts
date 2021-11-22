@@ -26,11 +26,11 @@ export class DepartmentsService {
                         {
                         model: Staff,
                         as:"staffs",
-                        include:[Position, Designation]
+                        include:[Position, Designation,Division]
                         },
                       {
                           model:Section
-                      }
+                      },
                     ],
                     order:[["staffs","positionId"]]
                 }],

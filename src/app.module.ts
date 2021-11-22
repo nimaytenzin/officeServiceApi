@@ -20,7 +20,6 @@ import { DesignationsModule } from './modules/designations/designations.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-
     MulterModule.register({
       dest: './upload',
     }),

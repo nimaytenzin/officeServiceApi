@@ -21,6 +21,7 @@ export class StaffController {
       return await this.staffService.findAll();
   }
 
+
   @Put(':id')
   async update(@Param('id') id: number, @Body() staff: StaffDto) {
     const { numRows, num } = await this.staffService.update(id, staff);
@@ -63,6 +64,11 @@ export class StaffController {
   @Get(':id')
   async findOneById(@Param('id') id: number) {
     return await this.staffService.findOneById(id);
+  }
+
+  @Get('email/:email')
+  async findOneByEmail(@Param('email') email: string) {
+    return await this.staffService.findOneByEmail(email);
   }
 
   @Delete(':id')

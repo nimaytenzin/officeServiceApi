@@ -9,25 +9,19 @@ import { Position } from 'src/modules/positions/position.entity';
 import { Designation } from 'src/modules/designations/designation.entity';
 
 export const databaseProviders = [{
-    provide: SEQUELIZE,
-    useFactory: async () => {
-        let config;
-        switch (process.env.NODE_ENV) {
-        case DEVELOPMENT:
-           config = databaseConfig.development;
-           break;
-        case TEST:
-           config = databaseConfig.test;
-           break;
-        case PRODUCTION:
-           config = databaseConfig.production;
-           break;
-        default:
-           config = databaseConfig.development;
-        }
-        const sequelize = new Sequelize(config);
-        sequelize.addModels([Staff,Department,Division,Section,Position,Designation]);
-        await sequelize.sync();
-        return sequelize;
-    },
+   provide: SEQUELIZE,
+   useFactory: async () => {
+      let config;
+
+      if (process.env.NODE_ENV === "production") {
+         console.log("ITS PRODUCTION")
+         config = databaseConfig.production;
+      } else {
+         config = databaseConfig.development;
+      }
+      const sequelize = new Sequelize(config);
+      sequelize.addModels([Staff, Department, Division, Section, Position, Designation]);
+      await sequelize.sync();
+      return sequelize;
+   },
 }];

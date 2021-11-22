@@ -18,7 +18,10 @@ export class StaffService {
 
   async findAll(): Promise<Staff[]> {
     return this.staffRepository.findAll<Staff>({
-     order:["positionId"]
+     order:["positionId"],
+     include:{
+       all:true
+     }
     });
   }
 
@@ -33,8 +36,13 @@ export class StaffService {
   }
 
   async findOneById(id: number): Promise<Staff> {
-    return await this.staffRepository.findOne<Staff>({ where: { id } });
+    return await this.staffRepository.findOne<Staff>({ where: { id },
+      include:[
+        {all:true}
+      ] });
   }
+
+
 
   async update(id, data) {
     const [numRows, num] = await this.staffRepository.update(
