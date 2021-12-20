@@ -5,6 +5,7 @@ export class DepartmentDTO {
 
     @ApiProperty()
     readonly description: string;
+    
    
     @ApiProperty()
     readonly vision: string;
